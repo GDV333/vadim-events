@@ -71,10 +71,10 @@ h2 em{font-style:italic;color:var(--gold)}
 
 .services{background:var(--dark3)}
 .svc-slider{margin-top:3rem;position:relative;overflow:hidden;border:1px solid var(--dim)}
-.svc-track{display:flex;transition:transform .7s cubic-bezier(.65,0,.35,1)}
+.svc-track{display:flex;transition:transform 1.1s cubic-bezier(.65,0,.35,1)}
 .svc-slide{min-width:100%;display:grid;grid-template-columns:1fr 1fr}
-.svc-img{height:480px;overflow:hidden}
-.svc-img img{width:100%;height:100%;object-fit:cover}
+.svc-img{height:540px;overflow:hidden}
+.svc-img img{width:100%;height:100%;object-fit:cover;object-position:center 22%}
 .svc-info{padding:4rem;display:flex;flex-direction:column;justify-content:center;position:relative;background:var(--dark2)}
 .svc-n{position:absolute;top:2rem;right:3rem;font-family:'Cormorant Garamond',serif;font-size:4rem;font-weight:300;color:var(--dim)}
 .svc-title{font-family:'Cormorant Garamond',serif;font-size:2.5rem;font-weight:400;color:#fff;margin-bottom:1.5rem}
@@ -211,10 +211,10 @@ footer{background:var(--dark2);padding:2rem 4rem;display:flex;justify-content:sp
 <!-- HERO — 4 slides only -->
 <section class="hero">
   <div class="hero-slides" id="heroSlides">
-    <div class="hero-slide active"><img src="images/5319234833831629976.jpg" alt=""></div>
-    <div class="hero-slide"><img src="images/5323388062911894248.jpg" alt=""></div>
-    <div class="hero-slide"><img src="images/5319234833831629977.jpg" alt=""></div>
-    <div class="hero-slide"><img src="images/5323388062911894246.jpg" alt=""></div>
+    <div class="hero-slide active"><img src="images/5256195249481129519.jpg" alt=""></div>
+    <div class="hero-slide"><img src="images/5256195249481129381.jpg" alt=""></div>
+    <div class="hero-slide"><img src="images/5256195249481129393.jpg" alt=""></div>
+    <div class="hero-slide"><img src="images/5256195249481129392.jpg" alt=""></div>
   </div>
   <div class="hero-content">
     <div class="hero-eyebrow">Ведущий мероприятий</div>
@@ -228,7 +228,7 @@ footer{background:var(--dark2);padding:2rem 4rem;display:flex;justify-content:sp
 <section class="about" id="about">
   <div class="about-inner">
     <div class="about-photo reveal-left">
-      <img src="images/5323388062911894244.jpg" alt="Вадим Тартынский">
+      <img src="images/5256195249481129385.jpg" alt="Вадим Тартынский">
       <div class="about-photo-frame"></div>
     </div>
     <div class="about-text seq">
@@ -416,24 +416,34 @@ const svcDots=document.getElementById('svcDots');
 for(let i=0;i<svcCount;i++){const d=document.createElement('div');d.className='svc-dot'+(i===0?' active':'');d.onclick=()=>svcGo(i);svcDots.appendChild(d)}
 function svcGo(i){svcIdx=(i+svcCount)%svcCount;svcTrack.style.transform=`translateX(-${svcIdx*100}%)`;document.querySelectorAll('.svc-dot').forEach((d,j)=>d.classList.toggle('active',j===svcIdx))}
 function svcMove(d){svcGo(svcIdx+d)}
-setInterval(()=>svcMove(1),6000);
+setInterval(()=>svcMove(1),9000);
 
-// PHOTO CAROUSEL — diverse event photos (different outfits, with people)
+// PHOTO CAROUSEL — diverse event photos, infinite loop
 const photos=['5256195249481129364.jpg','5323388062911894244.jpg','5319234833831629976.jpg','5256195249481129370.jpg','5323388062911894252.jpg','5256195249481129365.jpg','5319234833831629977.jpg','5323388062911894248.jpg','5256195249481129366.jpg','5323388062911894250.jpg','5256195249481129369.jpg','5323388062911894249.jpg','5323388062911894243.jpg','5323388062911894247.jpg'];
 const photoTrack=document.getElementById('photoTrack');
+// build items twice for seamless looping
+photos.forEach((p,i)=>{const d=document.createElement('div');d.className='carousel-item';d.onclick=()=>openLb(i);d.innerHTML=`<img src="images/${p}" loading="lazy">`;photoTrack.appendChild(d)});
 photos.forEach((p,i)=>{const d=document.createElement('div');d.className='carousel-item';d.onclick=()=>openLb(i);d.innerHTML=`<img src="images/${p}" loading="lazy">`;photoTrack.appendChild(d)});
 let photoPos=0;
+const photoItemW=320+16;
+const photoSetWidth=photos.length*photoItemW;
+photoTrack.style.transition='transform .6s cubic-bezier(.65,0,.35,1)';
 function photoMove(dir){
-  const itemW=320+16;
-  const viewW=photoTrack.parentElement.offsetWidth;
-  const maxScroll=Math.max(0,photoTrack.scrollWidth-viewW);
-  photoPos+=dir*itemW*2;
-  photoPos=Math.max(0,Math.min(photoPos,maxScroll));
+  photoPos+=dir*photoItemW*2;
+  photoTrack.style.transition='transform .6s cubic-bezier(.65,0,.35,1)';
   photoTrack.style.transform=`translateX(-${photoPos}px)`;
-  document.getElementById('photoPrev').disabled=photoPos<=0;
-  document.getElementById('photoNext').disabled=photoPos>=maxScroll;
 }
-setTimeout(()=>photoMove(0),100);
+photoTrack.addEventListener('transitionend',()=>{
+  if(photoPos>=photoSetWidth){
+    photoPos-=photoSetWidth;
+    photoTrack.style.transition='none';
+    photoTrack.style.transform=`translateX(-${photoPos}px)`;
+  } else if(photoPos<0){
+    photoPos+=photoSetWidth;
+    photoTrack.style.transition='none';
+    photoTrack.style.transform=`translateX(-${photoPos}px)`;
+  }
+});
 
 // VIDEO CAROUSEL
 const videos=['IMG_1213.MP4','IMG_2990.MP4','IMG_2991.MP4','IMG_2992.MP4','IMG_2993.MP4','IMG_1408.MP4','IMG_1214.MP4'];
@@ -466,7 +476,7 @@ function lbNav(d){lbIdx=(lbIdx+d+photos.length)%photos.length;document.getElemen
 document.getElementById('lightbox').addEventListener('click',e=>{if(e.target===e.currentTarget)closeLb()});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLb();if(e.key==='ArrowRight'&&document.getElementById('lightbox').classList.contains('open'))lbNav(1);if(e.key==='ArrowLeft'&&document.getElementById('lightbox').classList.contains('open'))lbNav(-1)});
 
-window.addEventListener('resize',()=>{photoMove(0);vidMove(0)});
+window.addEventListener('resize',()=>{vidMove(0)});
 </script>
 </body>
 </html>
