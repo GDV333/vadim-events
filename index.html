@@ -10,125 +10,123 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --gold:#C8A96E;
-  --gold2:#E2C98A;
-  --dark:#080807;
-  --dark2:#0f0f0d;
-  --dark3:#181815;
-  --dark4:#242420;
-  --mid:#3a3a34;
-  --text:#EAE6DC;
-  --muted:#7A7768;
-  --dim:#3D3D36;
+  --gold:#C8A96E;--gold2:#E2C98A;--dark:#080807;--dark2:#0f0f0d;--dark3:#181815;
+  --dark4:#242420;--mid:#3a3a34;--text:#EAE6DC;--muted:#7A7768;--dim:#3D3D36;
 }
 html{scroll-behavior:smooth}
-body{font-family:'Jost',sans-serif;background:var(--dark);color:var(--text);overflow-x:hidden;cursor:none}
-
-/* CURSOR */
-.cursor{position:fixed;width:8px;height:8px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .2s,height .2s,opacity .2s}
-.cursor-ring{position:fixed;width:36px;height:36px;border:1px solid rgba(200,169,110,0.4);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .4s,height .4s,transform .1s}
-body:has(a:hover) .cursor,.cursor.hover{width:0;height:0}
-body:has(a:hover) .cursor-ring,.cursor-ring.hover{width:60px;height:60px;border-color:rgba(200,169,110,0.7)}
+body{font-family:'Jost',sans-serif;background:var(--dark);color:var(--text);overflow-x:hidden}
 
 /* NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.5rem 4rem;display:flex;justify-content:space-between;align-items:center;mix-blend-mode:normal}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.5rem 4rem;display:flex;justify-content:space-between;align-items:center;transition:background .4s,padding .4s}
+nav.scrolled{background:rgba(8,8,7,.85);backdrop-filter:blur(12px);padding:1rem 4rem}
 .nav-logo{font-family:'Cormorant Garamond',serif;font-size:1rem;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);font-weight:300}
 .nav-links{display:flex;gap:3rem;list-style:none}
-.nav-links a{color:var(--muted);text-decoration:none;font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;font-weight:400;transition:color .3s}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;transition:color .3s}
 .nav-links a:hover{color:var(--gold)}
-.nav-cta{background:transparent;border:1px solid var(--mid);color:var(--muted);padding:.6rem 1.5rem;font-family:'Jost',sans-serif;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;transition:all .3s;display:inline-block}
+.nav-cta{background:transparent;border:1px solid var(--mid);color:var(--muted);padding:.6rem 1.5rem;font-family:'Jost',sans-serif;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;transition:all .3s}
 .nav-cta:hover{border-color:var(--gold);color:var(--gold)}
 
-/* HERO — FULLSCREEN SCROLL LOCK */
+/* HERO — slideshow */
 .hero{height:100vh;position:relative;display:flex;align-items:flex-end;overflow:hidden}
-.hero-bg{position:absolute;inset:0;z-index:0}
-.hero-bg img{width:100%;height:100%;object-fit:cover;opacity:.45;transform:scale(1.05);transition:transform 8s ease}
-.hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(8,8,7,1) 0%,rgba(8,8,7,.5) 40%,rgba(8,8,7,.1) 100%)}
+.hero-slides{position:absolute;inset:0;z-index:0}
+.hero-slide{position:absolute;inset:0;opacity:0;transition:opacity 2.5s ease}
+.hero-slide.active{opacity:1}
+.hero-slide img{width:100%;height:100%;object-fit:cover;opacity:.5;transform:scale(1.08);animation:kenburns 8s ease forwards}
+.hero-slide.active img{animation:kenburns 8s ease forwards}
+.hero-slides::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(8,8,7,1) 0%,rgba(8,8,7,.4) 45%,rgba(8,8,7,.1) 100%);z-index:1}
 .hero-content{position:relative;z-index:2;padding:0 4rem 6rem;width:100%}
 .hero-eyebrow{font-size:.6rem;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem;opacity:0;animation:fadeUp .8s .3s forwards}
 .hero-eyebrow::before{content:'';width:3rem;height:1px;background:var(--gold);opacity:.6}
-h1{font-family:'Cormorant Garamond',serif;font-size:clamp(4rem,8vw,9rem);font-weight:300;line-height:.95;letter-spacing:-.01em;color:#fff;opacity:0;animation:fadeUp .8s .5s forwards}
+h1{font-family:'Cormorant Garamond',serif;font-size:clamp(4rem,8vw,9rem);font-weight:300;line-height:.95;color:#fff;opacity:0;animation:fadeUp .8s .5s forwards}
 h1 em{font-style:italic;color:var(--gold)}
 .hero-sub{font-size:.65rem;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);margin-top:1.5rem;opacity:0;animation:fadeUp .8s .7s forwards}
-.scroll-hint{position:absolute;bottom:2rem;right:4rem;z-index:2;display:flex;flex-direction:column;align-items:center;gap:.5rem;opacity:0;animation:fadeIn 1s 1.5s forwards}
+.scroll-hint{position:absolute;bottom:2rem;right:4rem;z-index:2;display:flex;flex-direction:column;align-items:center;gap:.8rem;opacity:0;animation:fadeIn 1s 1.5s forwards}
 .scroll-hint span{font-size:.55rem;letter-spacing:.25em;text-transform:uppercase;color:var(--muted);writing-mode:vertical-rl}
 .scroll-line{width:1px;height:4rem;background:linear-gradient(to bottom,var(--gold),transparent);animation:scrollAnim 2s infinite}
 
-/* PINNED SECTIONS */
-.pin-wrapper{position:relative}
-.pin-section{height:100vh;display:flex;align-items:center;justify-content:center;position:sticky;top:0;overflow:hidden}
-
-/* ABOUT SECTION */
-.about-pin{background:var(--dark)}
-.about-inner{display:grid;grid-template-columns:1fr 1fr;gap:6rem;padding:0 6rem;align-items:center;width:100%}
-.about-photo{position:relative}
-.about-photo img{width:100%;height:600px;object-fit:cover;object-position:center top;display:block}
-.about-photo-frame{position:absolute;top:-1.5rem;left:-1.5rem;right:1.5rem;bottom:1.5rem;border:1px solid rgba(200,169,110,.2);pointer-events:none;z-index:-1}
-.about-text .label{font-size:.6rem;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem;display:flex;align-items:center;gap:.8rem}
-.about-text .label::before{content:'';width:2rem;height:1px;background:var(--gold)}
+/* SECTIONS */
+section{padding:7rem 4rem}
+.label{font-size:.6rem;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem;display:flex;align-items:center;gap:.8rem}
+.label::before{content:'';width:2rem;height:1px;background:var(--gold)}
 h2{font-family:'Cormorant Garamond',serif;font-size:clamp(2.5rem,4vw,4.5rem);font-weight:300;line-height:1.05;color:#fff}
 h2 em{font-style:italic;color:var(--gold)}
+
+/* ABOUT */
+.about{background:var(--dark)}
+.about-inner{display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center}
+.about-photo{position:relative}
+.about-photo img{width:100%;height:560px;object-fit:cover;object-position:center top;display:block}
+.about-photo-frame{position:absolute;top:-1.5rem;left:-1.5rem;right:1.5rem;bottom:1.5rem;border:1px solid rgba(200,169,110,.2);pointer-events:none;z-index:-1}
 .about-desc{font-size:.9rem;line-height:1.9;color:var(--muted);margin-top:2rem;max-width:400px;font-weight:300}
 .stats-row{display:flex;gap:3rem;margin-top:3rem;padding-top:2rem;border-top:1px solid var(--dim)}
 .stat-n{font-family:'Cormorant Garamond',serif;font-size:3rem;font-weight:300;color:var(--gold);line-height:1}
 .stat-l{font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-top:.3rem}
 
 /* FACTS */
-.facts-pin{background:var(--dark2)}
-.facts-inner{width:100%;padding:0 6rem;display:grid;grid-template-columns:1fr 1fr;gap:8rem;align-items:center}
-.facts-title-col .label{font-size:.6rem;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem;display:flex;align-items:center;gap:.8rem}
-.facts-title-col .label::before{content:'';width:2rem;height:1px;background:var(--gold)}
-.fact-list{list-style:none;display:flex;flex-direction:column}
+.facts{background:var(--dark2)}
+.facts-inner{display:grid;grid-template-columns:1fr 1fr;gap:8rem;align-items:center}
+.fact-list{list-style:none}
 .fact-item{padding:1.8rem 0;border-bottom:1px solid var(--dim);display:flex;gap:2rem;align-items:flex-start;transition:all .4s}
 .fact-item:first-child{border-top:1px solid var(--dim)}
+.fact-item:hover{padding-left:1rem}
 .fact-item:hover .fact-t{color:var(--text)}
 .fact-num{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-style:italic;color:var(--gold);opacity:.5;min-width:2rem;margin-top:.1rem}
 .fact-t{font-size:.95rem;line-height:1.7;color:var(--muted);font-weight:300;transition:color .4s}
 .fact-t strong{color:var(--text);font-weight:400}
 
-/* EVENTS */
-.events-pin{background:var(--dark3)}
-.events-inner{width:100%;padding:0 6rem}
-.events-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:3rem}
-.events-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--dim)}
-.event-card{background:var(--dark3);padding:2.5rem 2rem;transition:background .3s}
-.event-card:hover{background:var(--dark4)}
-.event-n{font-family:'Cormorant Garamond',serif;font-size:.8rem;font-style:italic;color:var(--gold);opacity:.4;margin-bottom:1.2rem}
-.event-ico{font-size:1.5rem;margin-bottom:1rem}
-.event-title{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:400;color:#fff;margin-bottom:.6rem}
-.event-desc{font-size:.78rem;line-height:1.7;color:var(--muted);font-weight:300}
+/* SERVICES SLIDER */
+.services{background:var(--dark3)}
+.svc-slider{margin-top:3rem;position:relative;overflow:hidden;border:1px solid var(--dim)}
+.svc-track{display:flex;transition:transform .7s cubic-bezier(.65,0,.35,1)}
+.svc-slide{min-width:100%;display:grid;grid-template-columns:1fr 1fr}
+.svc-img{height:480px;overflow:hidden}
+.svc-img img{width:100%;height:100%;object-fit:cover}
+.svc-info{padding:4rem;display:flex;flex-direction:column;justify-content:center;position:relative;background:var(--dark2)}
+.svc-n{position:absolute;top:2rem;right:3rem;font-family:'Cormorant Garamond',serif;font-size:4rem;font-weight:300;color:var(--dim)}
+.svc-title{font-family:'Cormorant Garamond',serif;font-size:2.5rem;font-weight:400;color:#fff;margin-bottom:1.5rem}
+.svc-desc{font-size:.88rem;line-height:1.9;color:var(--muted);font-weight:300;max-width:400px}
+.svc-controls{display:flex;justify-content:space-between;align-items:center;margin-top:2rem}
+.svc-arrows{display:flex;gap:.8rem}
+.svc-arrow{width:3rem;height:3rem;border:1px solid var(--mid);background:transparent;color:var(--muted);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.2rem;transition:all .3s}
+.svc-arrow:hover{border-color:var(--gold);color:var(--gold)}
+.svc-dots{display:flex;gap:.5rem}
+.svc-dot{width:24px;height:2px;background:var(--dim);cursor:pointer;transition:background .3s}
+.svc-dot.active{background:var(--gold)}
 
-/* PORTFOLIO */
-.portfolio-section{padding:8rem 0;background:var(--dark)}
-.portfolio-header{padding:0 4rem;display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:4rem}
-.masonry{columns:3;gap:8px;padding:0 4rem}
-.masonry-item{break-inside:avoid;margin-bottom:8px;overflow:hidden;position:relative;display:block;cursor:pointer}
-.masonry-item img{width:100%;display:block;transition:transform .6s ease,filter .4s}
-.masonry-item:hover img{transform:scale(1.04);filter:brightness(1.1)}
-.masonry-item::after{content:'';position:absolute;inset:0;background:rgba(8,8,7,0);transition:background .3s}
-.masonry-item:hover::after{background:rgba(200,169,110,.05)}
+/* PORTFOLIO CAROUSEL */
+.portfolio{background:var(--dark)}
+.carousel{margin-top:3rem;position:relative}
+.carousel-viewport{overflow:hidden}
+.carousel-track{display:flex;gap:1rem;transition:transform .6s cubic-bezier(.65,0,.35,1)}
+.carousel-item{flex:0 0 auto;width:300px;height:420px;overflow:hidden;cursor:pointer;position:relative}
+.carousel-item img{width:100%;height:100%;object-fit:cover;transition:transform .6s,filter .4s}
+.carousel-item:hover img{transform:scale(1.05);filter:brightness(1.1)}
+.carousel-nav{display:flex;justify-content:space-between;align-items:center;margin-top:2rem}
+.carousel-arrows{display:flex;gap:.8rem}
+.car-arrow{width:3rem;height:3rem;border:1px solid var(--mid);background:transparent;color:var(--muted);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.2rem;transition:all .3s}
+.car-arrow:hover{border-color:var(--gold);color:var(--gold)}
+.car-arrow:disabled{opacity:.3;cursor:default}
+.car-arrow:disabled:hover{border-color:var(--mid);color:var(--muted)}
+.car-hint{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
 
-/* VIDEO SECTION */
-.video-section{padding:6rem 4rem;background:var(--dark2)}
-.video-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:3rem}
-.video-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
-.video-card{position:relative;overflow:hidden;background:var(--dark3);aspect-ratio:9/16;cursor:pointer}
-.video-card video{width:100%;height:100%;object-fit:cover;opacity:.7;transition:opacity .4s}
-.video-card:hover video{opacity:1}
-.video-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(8,8,7,.2);transition:background .3s}
-.video-card:hover .video-overlay{background:rgba(8,8,7,.1)}
-.play-btn{width:56px;height:56px;border:1px solid rgba(200,169,110,.6);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:all .3s}
-.video-card:hover .play-btn{background:rgba(200,169,110,.15);border-color:var(--gold);transform:scale(1.1)}
-.play-icon{width:0;height:0;border-top:10px solid transparent;border-bottom:10px solid transparent;border-left:16px solid var(--gold);margin-left:4px}
-.video-card video::-webkit-media-controls{display:none!important}
+/* VIDEO CAROUSEL */
+.videos{background:var(--dark2)}
+.vid-item{flex:0 0 auto;width:240px;height:420px;overflow:hidden;position:relative;cursor:pointer;background:var(--dark3)}
+.vid-item video{width:100%;height:100%;object-fit:cover;opacity:.75;transition:opacity .4s}
+.vid-item:hover video{opacity:1}
+.vid-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(8,8,7,.25);transition:background .3s}
+.vid-item:hover .vid-overlay{background:rgba(8,8,7,.1)}
+.play-btn{width:54px;height:54px;border:1px solid rgba(200,169,110,.6);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:all .3s}
+.vid-item:hover .play-btn{background:rgba(200,169,110,.15);border-color:var(--gold);transform:scale(1.1)}
+.play-icon{width:0;height:0;border-top:9px solid transparent;border-bottom:9px solid transparent;border-left:15px solid var(--gold);margin-left:4px}
 
 /* CONTACT */
-.contact-section{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--dark);position:relative;overflow:hidden}
-.contact-bg-text{position:absolute;font-family:'Cormorant Garamond',serif;font-size:20vw;font-weight:700;font-style:italic;color:rgba(200,169,110,.03);white-space:nowrap;user-select:none;pointer-events:none;letter-spacing:-.02em}
-.contact-inner{text-align:center;position:relative;z-index:2}
-.contact-inner .label{font-size:.6rem;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);margin-bottom:2rem;display:flex;align-items:center;justify-content:center;gap:.8rem}
-.contact-inner .label::before,.contact-inner .label::after{content:'';width:2rem;height:1px;background:var(--gold)}
-.phone{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,5vw,5rem);font-weight:300;color:#fff;text-decoration:none;display:block;margin:1.5rem 0;letter-spacing:.02em;transition:color .3s}
+.contact{min-height:90vh;display:flex;align-items:center;justify-content:center;background:var(--dark);position:relative;overflow:hidden;text-align:center}
+.contact-bg-text{position:absolute;font-family:'Cormorant Garamond',serif;font-size:20vw;font-weight:700;font-style:italic;color:rgba(200,169,110,.03);white-space:nowrap;user-select:none;pointer-events:none}
+.contact-inner{position:relative;z-index:2}
+.contact .label{justify-content:center}
+.contact .label::after{content:'';width:2rem;height:1px;background:var(--gold)}
+.phone{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,5vw,5rem);font-weight:300;color:#fff;text-decoration:none;display:block;margin:1.5rem 0;transition:color .3s}
 .phone:hover{color:var(--gold)}
 .social-row{display:flex;gap:1.5rem;justify-content:center;margin-top:2rem}
 .soc-link{display:flex;align-items:center;gap:.7rem;padding:.8rem 2rem;border:1px solid var(--dim);text-decoration:none;color:var(--muted);font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;transition:all .3s}
@@ -136,7 +134,6 @@ h2 em{font-style:italic;color:var(--gold)}
 .cta-main{display:inline-block;margin-top:3rem;background:var(--gold);color:var(--dark);padding:1.1rem 3rem;font-family:'Jost',sans-serif;font-size:.65rem;letter-spacing:.25em;text-transform:uppercase;font-weight:500;text-decoration:none;transition:all .3s}
 .cta-main:hover{background:var(--gold2);transform:translateY(-2px);box-shadow:0 12px 32px rgba(200,169,110,.2)}
 
-/* FOOTER */
 footer{background:var(--dark2);padding:2rem 4rem;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--dim)}
 .f-logo{font-family:'Cormorant Garamond',serif;font-size:.85rem;letter-spacing:.25em;text-transform:uppercase;color:var(--muted);font-weight:300}
 .f-copy{font-size:.6rem;color:var(--dim);letter-spacing:.1em}
@@ -145,263 +142,190 @@ footer{background:var(--dark2);padding:2rem 4rem;display:flex;justify-content:sp
 .lightbox{position:fixed;inset:0;background:rgba(8,8,7,.96);z-index:1000;display:none;align-items:center;justify-content:center}
 .lightbox.open{display:flex}
 .lightbox img{max-width:90vw;max-height:90vh;object-fit:contain}
-.lb-close{position:absolute;top:2rem;right:2rem;width:3rem;height:3rem;cursor:pointer;display:flex;align-items:center;justify-content:center}
-.lb-close::before,.lb-close::after{content:'';position:absolute;width:2rem;height:1px;background:var(--muted)}
+.lb-close{position:absolute;top:2rem;right:2rem;width:3rem;height:3rem;cursor:pointer}
+.lb-close::before,.lb-close::after{content:'';position:absolute;top:1.5rem;left:.5rem;width:2rem;height:1px;background:var(--muted)}
 .lb-close::before{transform:rotate(45deg)}.lb-close::after{transform:rotate(-45deg)}
-.lb-prev,.lb-next{position:absolute;top:50%;transform:translateY(-50%);background:transparent;border:1px solid var(--mid);color:var(--muted);width:3rem;height:3rem;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1.2rem;transition:all .3s}
+.lb-prev,.lb-next{position:absolute;top:50%;transform:translateY(-50%);background:transparent;border:1px solid var(--mid);color:var(--muted);width:3rem;height:3rem;cursor:pointer;font-size:1.2rem;transition:all .3s}
 .lb-prev{left:2rem}.lb-next{right:2rem}
 .lb-prev:hover,.lb-next:hover{border-color:var(--gold);color:var(--gold)}
 
-/* ANIMS */
 @keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 @keyframes scrollAnim{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+@keyframes kenburns{from{transform:scale(1.08)}to{transform:scale(1.15)}}
 
-.reveal{opacity:0;transform:translateY(25px);transition:opacity .9s ease,transform .9s ease}
+.reveal{opacity:0;transform:translateY(40px);transition:opacity 1s ease,transform 1s ease}
 .reveal.vis{opacity:1;transform:none}
-
-/* SCROLL PROGRESS */
-.progress-bar{position:fixed;top:0;left:0;height:1px;background:var(--gold);z-index:200;transition:width .1s}
+.progress-bar{position:fixed;top:0;left:0;height:2px;background:var(--gold);z-index:200;width:0;transition:width .1s}
 
 @media(max-width:900px){
-  nav{padding:1rem 1.5rem}
-  .nav-links,.nav-cta{display:none}
-  .hero-content{padding:0 1.5rem 4rem}
-  .about-inner,.facts-inner{grid-template-columns:1fr;gap:3rem;padding:0 1.5rem}
-  .about-photo img{height:300px}
-  .events-inner{padding:0 1.5rem}
-  .events-grid{grid-template-columns:1fr;gap:1px}
-  .masonry{columns:2;padding:0 1.5rem}
-  .video-grid{grid-template-columns:1fr;gap:1rem;padding:0 1.5rem}
-  .portfolio-header,.video-header{padding:0 1.5rem;flex-direction:column;gap:1rem;align-items:flex-start}
-  .contact-section{padding:4rem 1.5rem}
+  nav{padding:1rem 1.5rem}.nav-links,.nav-cta{display:none}
+  .hero-content{padding:0 1.5rem 4rem}.scroll-hint{right:1.5rem}
+  section{padding:4rem 1.5rem}
+  .about-inner,.facts-inner{grid-template-columns:1fr;gap:3rem}
+  .about-photo img{height:340px}
+  .svc-slide{grid-template-columns:1fr}.svc-img{height:280px}.svc-info{padding:2.5rem}.svc-n{font-size:2.5rem;top:1rem;right:1.5rem}.svc-title{font-size:1.8rem}
+  .carousel-item{width:240px;height:340px}.vid-item{width:200px;height:340px}
   footer{flex-direction:column;gap:1rem;padding:1.5rem;text-align:center}
   .social-row{flex-direction:column;align-items:center}
-  .cursor,.cursor-ring{display:none}
 }
 </style>
 </head>
 <body>
 
-<div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="cursorRing"></div>
 <div class="progress-bar" id="progressBar"></div>
 
-<!-- NAV -->
-<nav>
+<nav id="nav">
   <div class="nav-logo">В. Тартынский</div>
   <ul class="nav-links">
     <li><a href="#about">О ведущем</a></li>
-    <li><a href="#events">Мероприятия</a></li>
+    <li><a href="#services">Мероприятия</a></li>
     <li><a href="#portfolio">Портфолио</a></li>
     <li><a href="#contact">Контакты</a></li>
   </ul>
   <a href="#contact" class="nav-cta">Забронировать</a>
 </nav>
 
-<!-- HERO -->
+<!-- HERO SLIDESHOW -->
 <section class="hero">
-  <div class="hero-bg">
-    <img src="images/5256195249481129364.jpg" alt="Вадим Тартынский" id="heroBg">
+  <div class="hero-slides" id="heroSlides">
+    <div class="hero-slide active"><img src="images/5256195249481129364.jpg" alt=""></div>
+    <div class="hero-slide"><img src="images/5256195249481129385.jpg" alt=""></div>
+    <div class="hero-slide"><img src="images/5256195249481129389.jpg" alt=""></div>
+    <div class="hero-slide"><img src="images/5323388062911894248.jpg" alt=""></div>
   </div>
   <div class="hero-content">
     <div class="hero-eyebrow">Профессиональный ведущий</div>
     <h1>Вадим<br><em>Тартынский</em></h1>
     <p class="hero-sub">Свадьбы · Корпоративы · Концерты · Дни рождения</p>
   </div>
-  <div class="scroll-hint">
-    <div class="scroll-line"></div>
-    <span>Листать</span>
+  <div class="scroll-hint"><div class="scroll-line"></div><span>Листать</span></div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-inner">
+    <div class="about-photo reveal">
+      <img src="images/5256195249481129373.jpg" alt="Вадим Тартынский">
+      <div class="about-photo-frame"></div>
+    </div>
+    <div class="about-text reveal">
+      <div class="label">О ведущем</div>
+      <h2>Делаю праздники<br><em>живыми</em></h2>
+      <p class="about-desc">Профессиональный ведущий с богатым опытом. Каждое мероприятие — это история, которую запомнят все присутствующие. Никаких шаблонов, только живые эмоции и настоящая атмосфера.</p>
+      <div class="stats-row">
+        <div><div class="stat-n">5+</div><div class="stat-l">Лет опыта</div></div>
+        <div><div class="stat-n">200+</div><div class="stat-l">Мероприятий</div></div>
+      </div>
+    </div>
   </div>
 </section>
 
-<!-- ABOUT PIN -->
-<div class="pin-wrapper" style="height:200vh">
-  <div class="pin-section about-pin" id="about">
-    <div class="about-inner">
-      <div class="about-photo reveal">
-        <img src="images/5256195249481129373.jpg" alt="Вадим Тартынский">
-        <div class="about-photo-frame"></div>
-      </div>
-      <div class="about-text">
-        <div class="label">О ведущем</div>
-        <h2>Делаю праздники<br><em>живыми</em></h2>
-        <p class="about-desc">
-          Профессиональный ведущий с богатым опытом. Каждое мероприятие — это история, которую запомнят все присутствующие. Никаких шаблонов, только живые эмоции и настоящая атмосфера.
-        </p>
-        <div class="stats-row">
-          <div class="stat-item">
-            <div class="stat-n">5+</div>
-            <div class="stat-l">Лет опыта</div>
-          </div>
-          <div class="stat-item">
-            <div class="stat-n">200+</div>
-            <div class="stat-l">Мероприятий</div>
-          </div>
-        </div>
-      </div>
+<!-- FACTS -->
+<section class="facts">
+  <div class="facts-inner">
+    <div class="reveal">
+      <div class="label">Факты</div>
+      <h2>Несколько<br>слов о<br><em>Вадиме</em></h2>
     </div>
-  </div>
-</div>
-
-<!-- FACTS PIN -->
-<div class="pin-wrapper" style="height:200vh">
-  <div class="pin-section facts-pin">
-    <div class="facts-inner">
-      <div class="facts-title-col reveal">
-        <div class="label">Факты</div>
-        <h2>Несколько<br>слов о<br><em>Вадиме</em></h2>
-      </div>
-      <ul class="fact-list reveal">
-        <li class="fact-item">
-          <span class="fact-num">I</span>
-          <span class="fact-t">Вёл мероприятие с <strong>Министром спорта</strong> — умеет держать марку</span>
-        </li>
-        <li class="fact-item">
-          <span class="fact-num">II</span>
-          <span class="fact-t">Однажды наступил на платье <strong>Полины Гагариной</strong> — и выжил</span>
-        </li>
-        <li class="fact-item">
-          <span class="fact-num">III</span>
-          <span class="fact-t"><strong>«Летняя» причёска</strong> уже 8 лет — стиль, который не меняется</span>
-        </li>
-        <li class="fact-item">
-          <span class="fact-num">IV</span>
-          <span class="fact-t">Ровно <strong>7 раз падал с мотоцикла</strong> — встаёт каждый раз</span>
-        </li>
-      </ul>
-    </div>
-  </div>
-</div>
-
-<!-- EVENTS PIN -->
-<div class="pin-wrapper" style="height:200vh">
-  <div class="pin-section events-pin" id="events">
-    <div class="events-inner">
-      <div class="events-header reveal">
-        <div>
-          <div class="label" style="font-size:.6rem;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;display:flex;align-items:center;gap:.8rem"><span style="display:block;width:2rem;height:1px;background:var(--gold)"></span>Мероприятия</div>
-          <h2>Работаю<br>на любых<br><em>площадках</em></h2>
-        </div>
-      </div>
-      <div class="events-grid reveal">
-        <div class="event-card">
-          <div class="event-n">01</div>
-          <div class="event-ico">💍</div>
-          <div class="event-title">Свадьбы</div>
-          <div class="event-desc">Романтика, юмор и атмосфера любви. Ни одного банального конкурса.</div>
-        </div>
-        <div class="event-card">
-          <div class="event-n">02</div>
-          <div class="event-ico">🎉</div>
-          <div class="event-title">Корпоративы</div>
-          <div class="event-desc">Сплочение команды и заряд позитива. Живое общение до самого финала.</div>
-        </div>
-        <div class="event-card">
-          <div class="event-n">03</div>
-          <div class="event-ico">🎂</div>
-          <div class="event-title">Дни рождения</div>
-          <div class="event-desc">Атмосфера с первых минут. Умею читать публику и вовлечь каждого.</div>
-        </div>
-        <div class="event-card">
-          <div class="event-n">04</div>
-          <div class="event-ico">🎓</div>
-          <div class="event-title">Выпускные</div>
-          <div class="event-desc">Особый день, который останется в памяти навсегда.</div>
-        </div>
-        <div class="event-card">
-          <div class="event-n">05</div>
-          <div class="event-ico">🎤</div>
-          <div class="event-title">Концерты</div>
-          <div class="event-desc">Чёткий тайминг, грамотная подача, управление вниманием зала.</div>
-        </div>
-        <div class="event-card">
-          <div class="event-n">06</div>
-          <div class="event-ico">🥂</div>
-          <div class="event-title">Бизнес-события</div>
-          <div class="event-desc">Точность, стиль и уверенность на любом корпоративном мероприятии.</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- PORTFOLIO -->
-<section class="portfolio-section" id="portfolio">
-  <div class="portfolio-header reveal">
-    <div>
-      <div class="label" style="font-size:.6rem;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;display:flex;align-items:center;gap:.8rem"><span style="display:block;width:2rem;height:1px;background:var(--gold)"></span>Портфолио</div>
-      <h2>Фото с<br><em>мероприятий</em></h2>
-    </div>
-  </div>
-  <div class="masonry" id="masonryGrid">
-    <div class="masonry-item reveal" onclick="openLb(0)"><img src="images/5256195249481129364.jpg" loading="lazy"></div>
-    <div class="masonry-item reveal" onclick="openLb(1)"><img src="images/5256195249481129369.jpg" loading="lazy"></div>
-    <div class="masonry-item reveal" onclick="openLb(2)"><img src="images/5256195249481129365.jpg" loading="lazy"></div>
-    <div class="masonry-item reveal" onclick="openLb(3)"><img src="images/5256195249481129373.jpg" loading="lazy"></div>
-    <div class="masonry-item reveal" onclick="openLb(4)"><img src="images/5256195249481129366.jpg" loading="lazy"></div>
-    <div class="masonry-item reveal" onclick="openLb(5)"><img src="images/5256195249481129374.jpg" loading="lazy"></div>
-    <div class="masonry-item reveal" onclick="openLb(6)"><img src="images/5256195249481129370.jpg" loading="lazy"></div>
-    <div class="masonry-item reveal" onclick="openLb(7)"><img src="images/5256195249481129375.jpg" loading="lazy"></div>
-    <div class="masonry-item reveal" onclick="openLb(8)"><img src="images/5256195249481129384.jpg" loading="lazy"></div>
-    <div class="masonry-item reveal" onclick="openLb(9)"><img src="images/5256195249481129376.jpg" loading="lazy"></div>
-    <div class="masonry-item reveal" onclick="openLb(10)"><img src="images/5256195249481129385.jpg" loading="lazy"></div>
-    <div class="masonry-item reveal" onclick="openLb(11)"><img src="images/5256195249481129377.jpg" loading="lazy"></div>
-    <div class="masonry-item reveal" onclick="openLb(12)"><img src="images/5256195249481129386.jpg" loading="lazy"></div>
-    <div class="masonry-item reveal" onclick="openLb(13)"><img src="images/5256195249481129378.jpg" loading="lazy"></div>
-    <div class="masonry-item reveal" onclick="openLb(14)"><img src="images/5256195249481129389.jpg" loading="lazy"></div>
-    <div class="masonry-item reveal" onclick="openLb(15)"><img src="images/5256195249481129379.jpg" loading="lazy"></div>
-    <div class="masonry-item reveal" onclick="openLb(16)"><img src="images/5319234833831629976.jpg" loading="lazy"></div>
-    <div class="masonry-item reveal" onclick="openLb(17)"><img src="images/5256195249481129380.jpg" loading="lazy"></div>
-    <div class="masonry-item reveal" onclick="openLb(18)"><img src="images/5319234833831629977.jpg" loading="lazy"></div>
-    <div class="masonry-item reveal" onclick="openLb(19)"><img src="images/5256195249481129381.jpg" loading="lazy"></div>
-    <div class="masonry-item reveal" onclick="openLb(20)"><img src="images/5323388062911894245.jpg" loading="lazy"></div>
-    <div class="masonry-item reveal" onclick="openLb(21)"><img src="images/5256195249481129382.jpg" loading="lazy"></div>
+    <ul class="fact-list reveal">
+      <li class="fact-item"><span class="fact-num">I</span><span class="fact-t">Вёл мероприятие с <strong>Министром спорта</strong> — умеет держать марку</span></li>
+      <li class="fact-item"><span class="fact-num">II</span><span class="fact-t">Однажды наступил на платье <strong>Полины Гагариной</strong> — и выжил</span></li>
+      <li class="fact-item"><span class="fact-num">III</span><span class="fact-t"><strong>«Летняя» причёска</strong> уже 8 лет — стиль, который не меняется</span></li>
+      <li class="fact-item"><span class="fact-num">IV</span><span class="fact-t">Ровно <strong>7 раз падал с мотоцикла</strong> — встаёт каждый раз</span></li>
+    </ul>
   </div>
 </section>
 
-<!-- VIDEOS -->
-<section class="video-section">
-  <div class="video-header reveal">
-    <div>
-      <div class="label" style="font-size:.6rem;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;display:flex;align-items:center;gap:.8rem"><span style="display:block;width:2rem;height:1px;background:var(--gold)"></span>Видео</div>
-      <h2>Моменты<br>в <em>динамике</em></h2>
+<!-- SERVICES SLIDER -->
+<section class="services" id="services">
+  <div class="reveal">
+    <div class="label">Мероприятия</div>
+    <h2>Работаю на любых <em>площадках</em></h2>
+  </div>
+  <div class="svc-slider reveal">
+    <div class="svc-track" id="svcTrack">
+      <div class="svc-slide">
+        <div class="svc-img"><img src="images/5256195249481129364.jpg" alt="Свадьбы"></div>
+        <div class="svc-info"><div class="svc-n">01</div><div class="svc-title">Свадьбы</div><div class="svc-desc">Романтика, юмор и атмосфера любви. Веду праздник с уважением, теплом и лёгкостью, создавая баланс между романтикой и весельем. Никаких банальных конкурсов — только искренние эмоции.</div></div>
+      </div>
+      <div class="svc-slide">
+        <div class="svc-img"><img src="images/5256195249481129385.jpg" alt="Корпоративы"></div>
+        <div class="svc-info"><div class="svc-n">02</div><div class="svc-title">Корпоративы</div><div class="svc-desc">Сплочение команды и заряд позитива. Создаю атмосферу лёгкости и веселья, где каждый чувствует себя частью общего настроения. Живое общение и динамика до самого финала.</div></div>
+      </div>
+      <div class="svc-slide">
+        <div class="svc-img"><img src="images/5256195249481129386.jpg" alt="Дни рождения"></div>
+        <div class="svc-info"><div class="svc-n">03</div><div class="svc-title">Дни рождения</div><div class="svc-desc">Эмоции и близкие люди. Независимо от формата — уютная компания или масштабная вечеринка — создаю настроение с первых минут. Максимум позитива и минимум шаблонов.</div></div>
+      </div>
+      <div class="svc-slide">
+        <div class="svc-img"><img src="images/5256195249481129389.jpg" alt="Выпускные"></div>
+        <div class="svc-info"><div class="svc-n">04</div><div class="svc-title">Выпускные</div><div class="svc-desc">Особый день, полный радости и эмоций. Музыка, интерактивы, неожиданные сюрпризы и тёплая атмосфера, которая остаётся надолго. Для многих это целая глава жизни.</div></div>
+      </div>
+      <div class="svc-slide">
+        <div class="svc-img"><img src="images/5323388062911894248.jpg" alt="Концерты"></div>
+        <div class="svc-info"><div class="svc-n">05</div><div class="svc-title">Концерты</div><div class="svc-desc">Управляю вниманием зала и создаю ритм события. Чёткий тайминг, грамотная подача и умение чувствовать момент держат аудиторию в нужном настроении от начала и до конца.</div></div>
+      </div>
+      <div class="svc-slide">
+        <div class="svc-img"><img src="images/5323388062911894249.jpg" alt="Бизнес-события"></div>
+        <div class="svc-info"><div class="svc-n">06</div><div class="svc-title">Бизнес-события</div><div class="svc-desc">Точность, стиль и уверенность. Для деловых мероприятий — собранность, грамотная подача и профессионализм на каждом этапе программы.</div></div>
+      </div>
     </div>
   </div>
-  <div class="video-grid">
-    <div class="video-card reveal" onclick="toggleVideo(this)">
-      <video src="images/IMG_1213.MP4" loop playsinline muted></video>
-      <div class="video-overlay"><div class="play-btn"><div class="play-icon"></div></div></div>
+  <div class="svc-controls reveal">
+    <div class="svc-dots" id="svcDots"></div>
+    <div class="svc-arrows">
+      <button class="svc-arrow" onclick="svcMove(-1)">‹</button>
+      <button class="svc-arrow" onclick="svcMove(1)">›</button>
     </div>
-    <div class="video-card reveal" onclick="toggleVideo(this)">
-      <video src="images/IMG_2990.MP4" loop playsinline muted></video>
-      <div class="video-overlay"><div class="play-btn"><div class="play-icon"></div></div></div>
+  </div>
+</section>
+
+<!-- PORTFOLIO CAROUSEL -->
+<section class="portfolio" id="portfolio">
+  <div class="reveal">
+    <div class="label">Портфолио</div>
+    <h2>Фото с <em>мероприятий</em></h2>
+  </div>
+  <div class="carousel reveal">
+    <div class="carousel-viewport">
+      <div class="carousel-track" id="photoTrack"></div>
     </div>
-    <div class="video-card reveal" onclick="toggleVideo(this)">
-      <video src="images/IMG_2991.MP4" loop playsinline muted></video>
-      <div class="video-overlay"><div class="play-btn"><div class="play-icon"></div></div></div>
+    <div class="carousel-nav">
+      <span class="car-hint">Листайте, чтобы посмотреть →</span>
+      <div class="carousel-arrows">
+        <button class="car-arrow" id="photoPrev" onclick="photoMove(-1)">‹</button>
+        <button class="car-arrow" id="photoNext" onclick="photoMove(1)">›</button>
+      </div>
     </div>
-    <div class="video-card reveal" onclick="toggleVideo(this)">
-      <video src="images/IMG_2992.MP4" loop playsinline muted></video>
-      <div class="video-overlay"><div class="play-btn"><div class="play-icon"></div></div></div>
+  </div>
+</section>
+
+<!-- VIDEO CAROUSEL -->
+<section class="videos">
+  <div class="reveal">
+    <div class="label">Видео</div>
+    <h2>Моменты в <em>динамике</em></h2>
+  </div>
+  <div class="carousel reveal">
+    <div class="carousel-viewport">
+      <div class="carousel-track" id="videoTrack"></div>
     </div>
-    <div class="video-card reveal" onclick="toggleVideo(this)">
-      <video src="images/IMG_2993.MP4" loop playsinline muted></video>
-      <div class="video-overlay"><div class="play-btn"><div class="play-icon"></div></div></div>
-    </div>
-    <div class="video-card reveal" onclick="toggleVideo(this)">
-      <video src="images/IMG_1408.MP4" loop playsinline muted></video>
-      <div class="video-overlay"><div class="play-btn"><div class="play-icon"></div></div></div>
+    <div class="carousel-nav">
+      <span class="car-hint">Нажмите на видео для просмотра →</span>
+      <div class="carousel-arrows">
+        <button class="car-arrow" id="vidPrev" onclick="vidMove(-1)">‹</button>
+        <button class="car-arrow" id="vidNext" onclick="vidMove(1)">›</button>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- CONTACT -->
-<section class="contact-section" id="contact">
+<section class="contact" id="contact">
   <div class="contact-bg-text">Вадим</div>
   <div class="contact-inner">
     <div class="label">Связаться</div>
-    <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(2.5rem,5vw,5rem);font-weight:300;color:#fff">Забронируйте<br><em>свою дату</em></h2>
+    <h2 style="font-size:clamp(2.5rem,5vw,5rem)">Забронируйте<br><em>свою дату</em></h2>
     <a href="tel:+79963141384" class="phone">+7 (996) 314-13-84</a>
     <div class="social-row">
       <a href="https://t.me/vadimtartynskiy" class="soc-link" target="_blank">✈ Telegram</a>
@@ -416,7 +340,6 @@ footer{background:var(--dark2);padding:2rem 4rem;display:flex;justify-content:sp
   <div class="f-copy">© 2025 · vadim-events.ru</div>
 </footer>
 
-<!-- LIGHTBOX -->
 <div class="lightbox" id="lightbox">
   <div class="lb-close" onclick="closeLb()"></div>
   <button class="lb-prev" onclick="lbNav(-1)">‹</button>
@@ -425,70 +348,86 @@ footer{background:var(--dark2);padding:2rem 4rem;display:flex;justify-content:sp
 </div>
 
 <script>
-// Cursor
-const cur = document.getElementById('cursor');
-const ring = document.getElementById('cursorRing');
-let mx=0,my=0,rx=0,ry=0;
-document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
-function animRing(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing)}animRing();
-document.querySelectorAll('a,button,.masonry-item,.video-card').forEach(el=>{
-  el.addEventListener('mouseenter',()=>{cur.classList.add('hover');ring.classList.add('hover')});
-  el.addEventListener('mouseleave',()=>{cur.classList.remove('hover');ring.classList.remove('hover')});
-});
+// HERO SLIDESHOW
+let heroIdx=0;
+const heroSlides=document.querySelectorAll('.hero-slide');
+setInterval(()=>{
+  heroSlides[heroIdx].classList.remove('active');
+  heroIdx=(heroIdx+1)%heroSlides.length;
+  heroSlides[heroIdx].classList.add('active');
+  const img=heroSlides[heroIdx].querySelector('img');
+  img.style.animation='none';void img.offsetWidth;img.style.animation='kenburns 8s ease forwards';
+},5000);
 
-// Scroll progress
-const pb = document.getElementById('progressBar');
+// NAV scroll
 window.addEventListener('scroll',()=>{
-  const pct = window.scrollY/(document.body.scrollHeight-window.innerHeight)*100;
-  pb.style.width=pct+'%';
+  document.getElementById('nav').classList.toggle('scrolled',window.scrollY>60);
+  document.getElementById('progressBar').style.width=(window.scrollY/(document.body.scrollHeight-window.innerHeight)*100)+'%';
 });
 
-// Reveal on scroll
-const obs = new IntersectionObserver(entries=>{
-  entries.forEach((e,i)=>{
-    if(e.isIntersecting){setTimeout(()=>e.target.classList.add('vis'),i*80);obs.unobserve(e.target)}
-  });
-},{threshold:.1});
+// REVEAL
+const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');obs.unobserve(e.target)}})},{threshold:.12});
 document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 
-// Hero parallax
-window.addEventListener('scroll',()=>{
-  const y = window.scrollY;
-  const bg = document.getElementById('heroBg');
-  if(bg) bg.style.transform=`scale(1.05) translateY(${y*.3}px)`;
-});
+// SERVICES SLIDER
+let svcIdx=0;
+const svcTrack=document.getElementById('svcTrack');
+const svcCount=document.querySelectorAll('.svc-slide').length;
+const svcDots=document.getElementById('svcDots');
+for(let i=0;i<svcCount;i++){const d=document.createElement('div');d.className='svc-dot'+(i===0?' active':'');d.onclick=()=>svcGo(i);svcDots.appendChild(d)}
+function svcGo(i){svcIdx=(i+svcCount)%svcCount;svcTrack.style.transform=`translateX(-${svcIdx*100}%)`;document.querySelectorAll('.svc-dot').forEach((d,j)=>d.classList.toggle('active',j===svcIdx))}
+function svcMove(d){svcGo(svcIdx+d)}
+setInterval(()=>svcMove(1),6000);
 
-// Video toggle
+// PHOTO CAROUSEL
+const photos=['5256195249481129373.jpg','5256195249481129374.jpg','5256195249481129375.jpg','5256195249481129376.jpg','5256195249481129377.jpg','5256195249481129378.jpg','5256195249481129379.jpg','5256195249481129380.jpg','5256195249481129381.jpg','5256195249481129382.jpg','5256195249481129387.jpg','5256195249481129388.jpg','5256195249481129392.jpg','5256195249481129394.jpg','5256195249481129395.jpg','5323388062911894243.jpg','5323388062911894244.jpg','5323388062911894247.jpg'];
+const photoTrack=document.getElementById('photoTrack');
+photos.forEach((p,i)=>{const d=document.createElement('div');d.className='carousel-item';d.onclick=()=>openLb(i);d.innerHTML=`<img src="images/${p}" loading="lazy">`;photoTrack.appendChild(d)});
+let photoPos=0;
+function photoMove(dir){
+  const itemW=300+16;
+  const viewW=photoTrack.parentElement.offsetWidth;
+  const maxScroll=photoTrack.scrollWidth-viewW;
+  photoPos+=dir*itemW*2;
+  photoPos=Math.max(0,Math.min(photoPos,maxScroll));
+  photoTrack.style.transform=`translateX(-${photoPos}px)`;
+  document.getElementById('photoPrev').disabled=photoPos<=0;
+  document.getElementById('photoNext').disabled=photoPos>=maxScroll;
+}
+setTimeout(()=>photoMove(0),100);
+
+// VIDEO CAROUSEL
+const videos=['IMG_1213.MP4','IMG_2990.MP4','IMG_2991.MP4','IMG_2992.MP4','IMG_2993.MP4','IMG_1408.MP4','IMG_1214.MP4'];
+const videoTrack=document.getElementById('videoTrack');
+videos.forEach(v=>{const d=document.createElement('div');d.className='vid-item';d.onclick=function(){toggleVideo(this)};d.innerHTML=`<video src="images/${v}" loop playsinline muted preload="metadata"></video><div class="vid-overlay"><div class="play-btn"><div class="play-icon"></div></div></div>`;videoTrack.appendChild(d)});
+let vidPos=0;
+function vidMove(dir){
+  const itemW=240+16;
+  const viewW=videoTrack.parentElement.offsetWidth;
+  const maxScroll=videoTrack.scrollWidth-viewW;
+  vidPos+=dir*itemW*2;
+  vidPos=Math.max(0,Math.min(vidPos,maxScroll));
+  videoTrack.style.transform=`translateX(-${vidPos}px)`;
+  document.getElementById('vidPrev').disabled=vidPos<=0;
+  document.getElementById('vidNext').disabled=vidPos>=maxScroll;
+}
+setTimeout(()=>vidMove(0),100);
 function toggleVideo(card){
-  const vid = card.querySelector('video');
-  const overlay = card.querySelector('.video-overlay');
-  if(vid.paused){
-    document.querySelectorAll('.video-card video').forEach(v=>v.pause());
-    vid.play();
-    overlay.style.opacity='0';
-  } else {
-    vid.pause();
-    overlay.style.opacity='1';
-  }
+  const vid=card.querySelector('video');
+  const overlay=card.querySelector('.vid-overlay');
+  if(vid.paused){document.querySelectorAll('.vid-item video').forEach(v=>v.pause());vid.play();overlay.style.opacity='0'}
+  else{vid.pause();overlay.style.opacity='1'}
 }
 
-// Lightbox
-const lbImgs = [
-  'images/5256195249481129364.jpg','images/5256195249481129369.jpg','images/5256195249481129365.jpg',
-  'images/5256195249481129373.jpg','images/5256195249481129366.jpg','images/5256195249481129374.jpg',
-  'images/5256195249481129370.jpg','images/5256195249481129375.jpg','images/5256195249481129384.jpg',
-  'images/5256195249481129376.jpg','images/5256195249481129385.jpg','images/5256195249481129377.jpg',
-  'images/5256195249481129386.jpg','images/5256195249481129378.jpg','images/5256195249481129389.jpg',
-  'images/5256195249481129379.jpg','images/5319234833831629976.jpg','images/5256195249481129380.jpg',
-  'images/5319234833831629977.jpg','images/5256195249481129381.jpg','images/5323388062911894245.jpg',
-  'images/5256195249481129382.jpg'
-];
+// LIGHTBOX
 let lbIdx=0;
-function openLb(i){lbIdx=i;document.getElementById('lbImg').src=lbImgs[i];document.getElementById('lightbox').classList.add('open');document.body.style.overflow='hidden'}
+function openLb(i){lbIdx=i;document.getElementById('lbImg').src='images/'+photos[i];document.getElementById('lightbox').classList.add('open');document.body.style.overflow='hidden'}
 function closeLb(){document.getElementById('lightbox').classList.remove('open');document.body.style.overflow=''}
-function lbNav(d){lbIdx=(lbIdx+d+lbImgs.length)%lbImgs.length;document.getElementById('lbImg').src=lbImgs[lbIdx]}
+function lbNav(d){lbIdx=(lbIdx+d+photos.length)%photos.length;document.getElementById('lbImg').src='images/'+photos[lbIdx]}
 document.getElementById('lightbox').addEventListener('click',e=>{if(e.target===e.currentTarget)closeLb()});
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLb();if(e.key==='ArrowRight')lbNav(1);if(e.key==='ArrowLeft')lbNav(-1)});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLb();if(e.key==='ArrowRight'&&document.getElementById('lightbox').classList.contains('open'))lbNav(1);if(e.key==='ArrowLeft'&&document.getElementById('lightbox').classList.contains('open'))lbNav(-1)});
+
+window.addEventListener('resize',()=>{photoMove(0);vidMove(0)});
 </script>
 </body>
 </html>
