@@ -187,7 +187,9 @@ footer{background:var(--dark2);padding:2rem 4rem;display:flex;justify-content:sp
 
 @media(max-width:900px){
   nav{padding:1rem 1.5rem}.nav-links,.nav-cta{display:none}
-  .hero-content{padding:0 1.5rem 4rem}.scroll-hint{right:1.5rem}
+  /* На мобильном — cover, чтобы фото заполняло весь экран */
+  .hero-slide img{object-fit:cover;object-position:center 15%;opacity:.65}
+  .hero-content{padding:0 1.5rem 4rem}.scroll-hint{right:1.5rem;bottom:1.5rem}
   .facts{padding:4rem 1.5rem}.facts-inner{grid-template-columns:1fr;gap:3rem}
   .portfolio{padding:4rem 1.5rem}.videos{padding:4rem 1.5rem}.contact{padding:4rem 1.5rem}
   .about-section{grid-template-columns:1fr;padding:4rem 1.5rem;gap:3rem}
@@ -279,7 +281,7 @@ footer{background:var(--dark2);padding:2rem 4rem;display:flex;justify-content:sp
   </div>
   <div class="services-grid-top reveal-scale">
     <div class="srv-block">
-      <img src="images/svadba.jpg" alt="Свадьбы">
+      <img src="images/5323388062911894244.jpg" alt="Свадьбы">
       <div class="srv-overlay">
         <div class="srv-n">01</div>
         <div class="srv-title">Свадьбы</div>
@@ -287,7 +289,7 @@ footer{background:var(--dark2);padding:2rem 4rem;display:flex;justify-content:sp
       </div>
     </div>
     <div class="srv-block">
-      <img src="images/korporativ.jpg" alt="Корпоративы">
+      <img src="images/5319234833831629977.jpg" alt="Корпоративы">
       <div class="srv-overlay">
         <div class="srv-n">02</div>
         <div class="srv-title">Корпоративы</div>
@@ -313,7 +315,7 @@ footer{background:var(--dark2);padding:2rem 4rem;display:flex;justify-content:sp
       </div>
     </div>
     <div class="srv-block">
-      <img src="images/konsert.jpg" alt="Концерты">
+      <img src="images/5319234833831629976.jpg" alt="Концерты">
       <div class="srv-overlay">
         <div class="srv-n">05</div>
         <div class="srv-title">Концерты</div>
