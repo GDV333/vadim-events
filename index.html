@@ -41,12 +41,11 @@ nav.scrolled{background:rgba(8,8,7,.88);backdrop-filter:blur(14px);padding:1rem 
 h1{font-family:'Cormorant Garamond',serif;font-size:clamp(4rem,8vw,9rem);font-weight:300;line-height:.95;color:#fff;opacity:0;animation:fadeUp .8s .5s forwards}
 h1 em{font-style:italic;color:var(--gold)}
 .hero-sub{font-size:.65rem;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);margin-top:1.5rem;opacity:0;animation:fadeUp .8s .7s forwards}
-
 .scroll-hint{position:absolute;bottom:2rem;right:4rem;z-index:2;display:flex;flex-direction:column;align-items:center;gap:.8rem;opacity:0;animation:fadeIn 1s 1.5s forwards}
 .scroll-hint span{font-size:.55rem;letter-spacing:.25em;text-transform:uppercase;color:var(--muted);writing-mode:vertical-rl}
 .scroll-line{width:1px;height:4rem;background:linear-gradient(to bottom,var(--gold),transparent);animation:scrollAnim 2s infinite}
 
-/* ── ABOUT (no sticky) ── */
+/* ── ABOUT ── */
 .about-section{background:var(--dark);padding:8rem 4rem;display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center}
 .about-photo-wrap{position:relative}
 .about-photo-wrap img{width:100%;height:580px;object-fit:cover;object-position:center 15%;display:block}
@@ -55,7 +54,6 @@ h1 em{font-style:italic;color:var(--gold)}
 .label::before{content:'';width:2rem;height:1px;background:var(--gold)}
 h2{font-family:'Cormorant Garamond',serif;font-size:clamp(2.5rem,4vw,4.5rem);font-weight:300;line-height:1.05;color:#fff}
 h2 em{font-style:italic;color:var(--gold)}
-/* FIX 4: bigger about description font */
 .about-desc{font-size:1.05rem;line-height:1.9;color:var(--muted);margin-top:2rem;font-weight:300}
 .stats-row{display:flex;gap:3rem;margin-top:3rem;padding-top:2rem;border-top:1px solid var(--dim)}
 .stat-n{font-family:'Cormorant Garamond',serif;font-size:3rem;font-weight:300;color:var(--gold);line-height:1}
@@ -74,28 +72,12 @@ h2 em{font-style:italic;color:var(--gold)}
 .fact-item:hover{padding-left:1rem}
 .fact-item:hover .fact-t{color:var(--text)}
 .fact-num{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-style:italic;color:var(--gold);opacity:.5;min-width:2rem;margin-top:.1rem}
-/* FIX 4: bigger fact text */
 .fact-t{font-size:1.05rem;line-height:1.7;color:var(--muted);font-weight:300;transition:color .4s}
 .fact-t strong{color:var(--text);font-weight:400}
 
-/* ── SERVICES (no horizontal scroll, simple grid) ── */
+/* ── SERVICES ── */
 .services{background:var(--dark3);padding:7rem 4rem}
 .services-header{margin-bottom:4rem}
-.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0}
-.srv-card{display:grid;grid-template-columns:1fr 1fr;min-height:420px}
-.srv-card:nth-child(even) .horiz-img{order:2}
-.srv-card:nth-child(even) .horiz-info{order:1}
-/* FIX 5: center the services title text vertically */
-.horiz-img{overflow:hidden;position:relative}
-.horiz-img img{width:100%;height:100%;object-fit:cover;object-position:center 22%;transition:transform .6s}
-.horiz-img:hover img{transform:scale(1.04)}
-.horiz-info{background:var(--dark2);padding:3rem;display:flex;flex-direction:column;justify-content:center;position:relative}
-.horiz-n{position:absolute;top:1.5rem;right:2rem;font-family:'Cormorant Garamond',serif;font-size:3.5rem;font-weight:300;color:var(--dim)}
-.horiz-title{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:400;color:#fff;margin-bottom:1.2rem}
-/* FIX 4 & 5: bigger service description, vertically centered */
-.horiz-desc{font-size:1rem;line-height:1.9;color:var(--muted);font-weight:300;max-width:400px}
-
-/* New layout: 3 cards per row, then bottom row */
 .services-grid-top{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-bottom:2px}
 .services-grid-bottom{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
 .srv-block{position:relative;overflow:hidden;height:420px}
@@ -104,7 +86,6 @@ h2 em{font-style:italic;color:var(--gold)}
 .srv-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(8,8,7,.92) 0%,rgba(8,8,7,.2) 60%,rgba(8,8,7,0) 100%);display:flex;flex-direction:column;justify-content:flex-end;padding:2.5rem}
 .srv-n{font-family:'Cormorant Garamond',serif;font-size:1rem;font-style:italic;color:var(--gold);opacity:.6;margin-bottom:.5rem}
 .srv-title{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:400;color:#fff;margin-bottom:.8rem}
-/* FIX 4: bigger service desc */
 .srv-desc{font-size:1rem;line-height:1.75;color:rgba(234,230,220,.6);font-weight:300;max-width:320px}
 
 /* ── CLIENTS ── */
@@ -126,20 +107,20 @@ h2 em{font-style:italic;color:var(--gold)}
 .carousel-arrows{display:flex;gap:.8rem;align-items:center}
 .car-arrow{width:3rem;height:3rem;border:1px solid var(--mid);background:transparent;color:var(--muted);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.2rem;transition:all .3s}
 .car-arrow:hover{border-color:var(--gold);color:var(--gold)}
-/* FIX 8: hint next to arrows */
 .car-hint{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
 
 /* ── VIDEOS ── */
 .videos{background:var(--dark2);padding:7rem 4rem}
-.vid-item{flex:0 0 auto;width:240px;height:420px;overflow:hidden;position:relative;cursor:pointer;background:var(--dark3)}
-/* FIX 9: videos have sound — removed muted attribute via JS */
-.vid-item video{width:100%;height:100%;object-fit:cover;opacity:.75;transition:opacity .4s}
+.vid-item{flex:0 0 auto;width:240px;height:420px;overflow:hidden;position:relative;cursor:pointer;
+  background:linear-gradient(135deg,var(--dark3) 0%,var(--dark4) 50%,var(--dark3) 100%)}
+.vid-item::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(200,169,110,.06) 0%,transparent 70%);z-index:0}
+.vid-item video{width:100%;height:100%;object-fit:cover;opacity:.85;transition:opacity .4s;position:relative;z-index:1}
 .vid-item:hover video{opacity:1}
-.vid-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(8,8,7,.25);transition:background .3s}
-.vid-item:hover .vid-overlay{background:rgba(8,8,7,.1)}
-.play-btn{width:54px;height:54px;border:1px solid rgba(200,169,110,.6);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:all .3s}
+.vid-overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(8,8,7,.15);transition:background .3s;z-index:2}
+.vid-item:hover .vid-overlay{background:rgba(8,8,7,.05)}
+.play-btn{width:60px;height:60px;border:1.5px solid rgba(200,169,110,.7);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:all .3s;background:rgba(8,8,7,.4);backdrop-filter:blur(4px)}
 .vid-item:hover .play-btn{background:rgba(200,169,110,.15);border-color:var(--gold);transform:scale(1.1)}
-.play-icon{width:0;height:0;border-top:9px solid transparent;border-bottom:9px solid transparent;border-left:15px solid var(--gold);margin-left:4px}
+.play-icon{width:0;height:0;border-top:10px solid transparent;border-bottom:10px solid transparent;border-left:17px solid var(--gold);margin-left:5px}
 
 /* ── CONTACT ── */
 .contact{min-height:90vh;display:flex;align-items:center;justify-content:center;background:var(--dark);position:relative;overflow:hidden;text-align:center;padding:7rem 4rem}
@@ -150,11 +131,9 @@ h2 em{font-style:italic;color:var(--gold)}
 .phone{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,5vw,5rem);font-weight:300;color:#fff;text-decoration:none;display:block;margin:1.5rem 0;transition:color .3s}
 .phone:hover{color:var(--gold)}
 .social-row{display:flex;gap:1.5rem;justify-content:center;margin-top:2rem}
-/* FIX 10: real social icons via SVG */
 .soc-link{display:flex;align-items:center;gap:.7rem;padding:.8rem 2rem;border:1px solid var(--dim);text-decoration:none;color:var(--muted);font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;transition:all .3s}
 .soc-link:hover{border-color:var(--gold);color:var(--gold)}
 .soc-link svg{width:18px;height:18px;fill:currentColor;flex-shrink:0}
-.soc-link:hover svg{fill:var(--gold)}
 .cta-main{display:inline-block;margin-top:3rem;background:var(--gold);color:var(--dark);padding:1.1rem 3rem;font-family:'Jost',sans-serif;font-size:.65rem;letter-spacing:.25em;text-transform:uppercase;font-weight:500;text-decoration:none;transition:all .3s}
 .cta-main:hover{background:var(--gold2);transform:translateY(-2px);box-shadow:0 12px 32px rgba(200,169,110,.2)}
 
@@ -187,8 +166,7 @@ footer{background:var(--dark2);padding:2rem 4rem;display:flex;justify-content:sp
 
 @media(max-width:900px){
   nav{padding:1rem 1.5rem}.nav-links,.nav-cta{display:none}
-  /* На мобильном — cover, чтобы фото заполняло весь экран */
-  .hero-slide img{object-fit:cover;object-position:center center;opacity:.65}
+  .hero-slide img{object-fit:cover;object-position:55% 20%;opacity:.65}
   .hero-content{padding:0 1.5rem 4rem}.scroll-hint{right:1.5rem;bottom:1.5rem}
   .facts{padding:4rem 1.5rem}.facts-inner{grid-template-columns:1fr;gap:3rem}
   .portfolio{padding:4rem 1.5rem}.videos{padding:4rem 1.5rem}.contact{padding:4rem 1.5rem}
@@ -222,7 +200,7 @@ footer{background:var(--dark2);padding:2rem 4rem;display:flex;justify-content:sp
 <!-- HERO -->
 <section class="hero">
   <div class="hero-slides" id="heroSlides">
-    <div class="hero-slide active"><img src="images/karysel/the_first.jpg" alt=""></div>
+    <div class="hero-slide active"><img src="images/karysel/the_first.png" alt=""></div>
     <div class="hero-slide"><img src="images/karysel/the_second.png" alt=""></div>
     <div class="hero-slide"><img src="images/karysel/the_therd.jpg" alt=""></div>
     <div class="hero-slide"><img src="images/karysel/the_forth.png" alt=""></div>
@@ -235,7 +213,7 @@ footer{background:var(--dark2);padding:2rem 4rem;display:flex;justify-content:sp
   <div class="scroll-hint"><div class="scroll-line"></div><span>Листать</span></div>
 </section>
 
-<!-- ABOUT (FIX 3: no sticky effect) -->
+<!-- ABOUT -->
 <section class="about-section" id="about">
   <div class="about-photo-wrap reveal-left">
     <img src="images/5256195249481129385.jpg" alt="Вадим Тартынский">
@@ -273,7 +251,7 @@ footer{background:var(--dark2);padding:2rem 4rem;display:flex;justify-content:sp
   </div>
 </section>
 
-<!-- SERVICES (FIX 3: no horizontal scroll, FIX 5: centered, FIX 6: выпускные between корпоративы and дни рождения) -->
+<!-- SERVICES -->
 <section class="services" id="services">
   <div class="services-header reveal-left">
     <div class="label">Мероприятия</div>
@@ -281,7 +259,7 @@ footer{background:var(--dark2);padding:2rem 4rem;display:flex;justify-content:sp
   </div>
   <div class="services-grid-top reveal-scale">
     <div class="srv-block">
-      <img src="images/5323388062911894244.jpg" alt="Свадьбы">
+      <img src="images/svadba.jpg" alt="Свадьбы">
       <div class="srv-overlay">
         <div class="srv-n">01</div>
         <div class="srv-title">Свадьбы</div>
@@ -289,7 +267,7 @@ footer{background:var(--dark2);padding:2rem 4rem;display:flex;justify-content:sp
       </div>
     </div>
     <div class="srv-block">
-      <img src="images/5319234833831629977.jpg" alt="Корпоративы">
+      <img src="images/korporativ.jpg" alt="Корпоративы">
       <div class="srv-overlay">
         <div class="srv-n">02</div>
         <div class="srv-title">Корпоративы</div>
@@ -315,7 +293,7 @@ footer{background:var(--dark2);padding:2rem 4rem;display:flex;justify-content:sp
       </div>
     </div>
     <div class="srv-block">
-      <img src="images/5319234833831629976.jpg" alt="Концерты">
+      <img src="images/konsert.jpg" alt="Концерты">
       <div class="srv-overlay">
         <div class="srv-n">05</div>
         <div class="srv-title">Концерты</div>
@@ -333,9 +311,9 @@ footer{background:var(--dark2);padding:2rem 4rem;display:flex;justify-content:sp
   </div>
 </section>
 
-<!-- CLIENTS (FIX 7: added НГТУ) -->
+<!-- CLIENTS -->
 <section class="clients-section" id="clients">
-  <div class="label reveal-left" style="justify-content:center"><span style="display:none"></span>Доверяют</div>
+  <div class="label reveal-left" style="justify-content:center">Доверяют</div>
   <h2 class="reveal">Работаю с <em>крупными компаниями</em></h2>
   <div class="clients-logos reveal">
     <div class="client-chip">Сбер</div>
@@ -346,7 +324,7 @@ footer{background:var(--dark2);padding:2rem 4rem;display:flex;justify-content:sp
   <p class="clients-note reveal">Веду корпоративные мероприятия для ведущих компаний — от деловых событий до масштабных праздников.</p>
 </section>
 
-<!-- PORTFOLIO (FIX 8: hint moved next to arrows) -->
+<!-- PORTFOLIO -->
 <section class="portfolio" id="portfolio">
   <div class="reveal-left">
     <div class="label">Портфолио</div>
@@ -367,7 +345,7 @@ footer{background:var(--dark2);padding:2rem 4rem;display:flex;justify-content:sp
   </div>
 </section>
 
-<!-- VIDEOS (FIX 9: sound enabled) -->
+<!-- VIDEOS -->
 <section class="videos">
   <div class="reveal-left">
     <div class="label">Видео</div>
@@ -388,7 +366,7 @@ footer{background:var(--dark2);padding:2rem 4rem;display:flex;justify-content:sp
   </div>
 </section>
 
-<!-- CONTACT (FIX 10: real TG and VK icons) -->
+<!-- CONTACT -->
 <section class="contact" id="contact">
   <div class="contact-bg-text">Вадим</div>
   <div class="contact-inner">
@@ -396,18 +374,12 @@ footer{background:var(--dark2);padding:2rem 4rem;display:flex;justify-content:sp
     <h2 class="reveal" style="font-size:clamp(2.5rem,5vw,5rem)">Забронируйте<br><em>свою дату</em></h2>
     <a href="tel:+79963141384" class="phone reveal">+7 (996) 314-13-84</a>
     <div class="social-row reveal">
-      <!-- Telegram official icon -->
       <a href="https://t.me/vadimtartynskiy" class="soc-link" target="_blank">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
-        </svg>
+        <svg viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
         Telegram
       </a>
-      <!-- VK official icon -->
       <a href="https://vk.ru/vadimtartynskiy" class="soc-link" target="_blank">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path d="M15.684 0H8.316C1.592 0 0 1.592 0 8.316v7.368C0 22.408 1.592 24 8.316 24h7.368C22.408 24 24 22.408 24 15.684V8.316C24 1.592 22.408 0 15.684 0zm3.692 17.123h-1.744c-.66 0-.862-.525-2.049-1.714-1.033-1.01-1.49-1.135-1.744-1.135-.356 0-.458.102-.458.593v1.575c0 .424-.135.678-1.253.678-1.846 0-3.896-1.118-5.335-3.202C4.624 10.857 4 8.408 4 7.932c0-.254.102-.491.593-.491h1.744c.44 0 .61.203.779.677.864 2.49 2.303 4.675 2.896 4.675.22 0 .322-.102.322-.66V9.928c-.068-1.186-.695-1.287-.695-1.71 0-.203.17-.407.44-.407h2.744c.373 0 .508.203.508.643v3.473c0 .372.17.508.271.508.22 0 .407-.136.813-.542 1.254-1.406 2.151-3.574 2.151-3.574.119-.254.322-.491.763-.491h1.744c.525 0 .644.27.525.643-.22 1.017-2.354 4.031-2.354 4.031-.186.305-.254.44 0 .78.186.254.796.779 1.203 1.253.745.847 1.32 1.558 1.473 2.049.17.474-.085.745-.576.745z"/>
-        </svg>
+        <svg viewBox="0 0 24 24"><path d="M15.684 0H8.316C1.592 0 0 1.592 0 8.316v7.368C0 22.408 1.592 24 8.316 24h7.368C22.408 24 24 22.408 24 15.684V8.316C24 1.592 22.408 0 15.684 0zm3.692 17.123h-1.744c-.66 0-.862-.525-2.049-1.714-1.033-1.01-1.49-1.135-1.744-1.135-.356 0-.458.102-.458.593v1.575c0 .424-.135.678-1.253.678-1.846 0-3.896-1.118-5.335-3.202C4.624 10.857 4 8.408 4 7.932c0-.254.102-.491.593-.491h1.744c.44 0 .61.203.779.677.864 2.49 2.303 4.675 2.896 4.675.22 0 .322-.102.322-.66V9.928c-.068-1.186-.695-1.287-.695-1.71 0-.203.17-.407.44-.407h2.744c.373 0 .508.203.508.643v3.473c0 .372.17.508.271.508.22 0 .407-.136.813-.542 1.254-1.406 2.151-3.574 2.151-3.574.119-.254.322-.491.763-.491h1.744c.525 0 .644.27.525.643-.22 1.017-2.354 4.031-2.354 4.031-.186.305-.254.44 0 .78.186.254.796.779 1.203 1.253.745.847 1.32 1.558 1.473 2.049.17.474-.085.745-.576.745z"/></svg>
         ВКонтакте
       </a>
     </div>
@@ -484,10 +456,8 @@ const videos=['IMG_1213.MP4','IMG_2990.MP4','IMG_2991.MP4','IMG_2992.MP4','IMG_2
 const videoTrack=document.getElementById('videoTrack');
 videos.forEach(v=>{
   const d=document.createElement('div');d.className='vid-item';d.onclick=function(){toggleVideo(this)};
-  d.innerHTML=`<video src="images/${v}" loop playsinline preload="auto"></video><div class="vid-overlay"><div class="play-btn"><div class="play-icon"></div></div></div>`;
+  d.innerHTML=`<video src="images/${v}" loop playsinline preload="metadata" muted></video><div class="vid-overlay"><div class="play-btn"><div class="play-icon"></div></div></div>`;
   videoTrack.appendChild(d);
-  const vid=d.querySelector('video');
-  vid.addEventListener('loadeddata',()=>{vid.currentTime=0.001});
 });
 let vidPos=0;
 function vidMove(dir){
@@ -501,11 +471,25 @@ function toggleVideo(card){
   const vid=card.querySelector('video');const overlay=card.querySelector('.vid-overlay');
   if(vid.paused){
     document.querySelectorAll('.vid-item video').forEach(v=>{v.pause();v.closest('.vid-item').querySelector('.vid-overlay').style.opacity='1'});
-    vid.play();overlay.style.opacity='0';
+    vid.muted=false;
+    vid.play().catch(()=>{vid.muted=true;vid.play()});
+    overlay.style.opacity='0';
   } else {
     vid.pause();overlay.style.opacity='1';
   }
 }
+
+/* ── TOUCH SWIPE ── */
+function addSwipe(track,moveFn){
+  let sx=0;
+  track.addEventListener('touchstart',e=>{sx=e.touches[0].clientX},{passive:true});
+  track.addEventListener('touchend',e=>{
+    const dx=e.changedTouches[0].clientX-sx;
+    if(Math.abs(dx)>40)moveFn(dx<0?1:-1);
+  },{passive:true});
+}
+addSwipe(document.getElementById('photoTrack'),photoMove);
+addSwipe(document.getElementById('videoTrack'),vidMove);
 
 /* ── LIGHTBOX ── */
 let lbIdx=0;
