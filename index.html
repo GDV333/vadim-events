@@ -32,8 +32,7 @@ nav.scrolled{background:rgba(8,8,7,.88);backdrop-filter:blur(14px);padding:1rem 
 .hero-slides{position:absolute;inset:0;z-index:0}
 .hero-slide{position:absolute;inset:0;opacity:0;transition:opacity 2.5s ease}
 .hero-slide.active{opacity:1}
-/* FIX 1: object-fit:cover fills the full screen */
-.hero-slide img{width:100%;height:100%;object-fit:cover;object-position:center top;opacity:.6;background:var(--dark)}
+.hero-slide img{width:100%;height:100%;object-fit:contain;object-position:center 10%;opacity:.55;background:var(--dark)}
 .hero-slide.active img{animation:kenburns 8s ease forwards}
 .hero-slides::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(8,8,7,1) 0%,rgba(8,8,7,.35) 40%,rgba(8,8,7,.05) 100%);z-index:1}
 .hero-content{position:relative;z-index:2;padding:0 4rem 6rem;width:100%}
@@ -43,16 +42,9 @@ h1{font-family:'Cormorant Garamond',serif;font-size:clamp(4rem,8vw,9rem);font-we
 h1 em{font-style:italic;color:var(--gold)}
 .hero-sub{font-size:.65rem;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);margin-top:1.5rem;opacity:0;animation:fadeUp .8s .7s forwards}
 
-/* FIX 2: improved scroll hint */
-.scroll-hint{position:absolute;bottom:2.5rem;right:4rem;z-index:2;display:flex;flex-direction:column;align-items:center;gap:.6rem;opacity:0;animation:fadeIn 1s 1.5s forwards;cursor:pointer}
-.scroll-hint-label{font-size:.55rem;letter-spacing:.25em;text-transform:uppercase;color:var(--muted);writing-mode:vertical-rl}
-.scroll-hint-arrow{display:flex;flex-direction:column;align-items:center;gap:3px}
-.scroll-hint-arrow span{display:block;width:1px;background:var(--gold);animation:scrollDrop 1.8s infinite}
-.scroll-hint-arrow span:nth-child(1){height:12px;animation-delay:0s}
-.scroll-hint-arrow span:nth-child(2){height:12px;animation-delay:.15s}
-.scroll-hint-arrow span:nth-child(3){height:12px;animation-delay:.3s}
-.scroll-mouse{width:22px;height:34px;border:1px solid rgba(200,169,110,.5);border-radius:11px;display:flex;justify-content:center;padding-top:5px;margin-bottom:6px}
-.scroll-mouse-dot{width:3px;height:6px;background:var(--gold);border-radius:2px;animation:mouseScroll 1.8s infinite}
+.scroll-hint{position:absolute;bottom:2rem;right:4rem;z-index:2;display:flex;flex-direction:column;align-items:center;gap:.8rem;opacity:0;animation:fadeIn 1s 1.5s forwards}
+.scroll-hint span{font-size:.55rem;letter-spacing:.25em;text-transform:uppercase;color:var(--muted);writing-mode:vertical-rl}
+.scroll-line{width:1px;height:4rem;background:linear-gradient(to bottom,var(--gold),transparent);animation:scrollAnim 2s infinite}
 
 /* ── ABOUT (no sticky) ── */
 .about-section{background:var(--dark);padding:8rem 4rem;display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center}
@@ -184,8 +176,7 @@ footer{background:var(--dark2);padding:2rem 4rem;display:flex;justify-content:sp
 @keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 @keyframes kenburns{from{transform:scale(1.0)}to{transform:scale(1.06)}}
-@keyframes mouseScroll{0%,100%{transform:translateY(0);opacity:1}50%{transform:translateY(8px);opacity:.3}}
-@keyframes scrollDrop{0%{opacity:0;transform:translateY(-4px)}50%{opacity:1}100%{opacity:0;transform:translateY(4px)}}
+@keyframes scrollAnim{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
 
 .reveal{opacity:0;transform:translateY(40px);transition:opacity 1s ease,transform 1s ease}
 .reveal.vis{opacity:1;transform:none}
@@ -239,11 +230,7 @@ footer{background:var(--dark2);padding:2rem 4rem;display:flex;justify-content:sp
     <h1>Вадим<br><em>Тартынский</em></h1>
     <p class="hero-sub">Свадьбы · Корпоративы · Концерты · Дни рождения</p>
   </div>
-  <!-- FIX 2: improved scroll hint -->
-  <div class="scroll-hint" onclick="window.scrollBy({top:window.innerHeight,behavior:'smooth'})">
-    <div class="scroll-mouse"><div class="scroll-mouse-dot"></div></div>
-    <div class="scroll-hint-label">Листать</div>
-  </div>
+  <div class="scroll-hint"><div class="scroll-line"></div><span>Листать</span></div>
 </section>
 
 <!-- ABOUT (FIX 3: no sticky effect) -->
