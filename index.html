@@ -188,7 +188,7 @@ footer{background:var(--dark2);padding:2rem 4rem;display:flex;justify-content:sp
 @media(max-width:900px){
   nav{padding:1rem 1.5rem}.nav-links,.nav-cta{display:none}
   /* На мобильном — cover, чтобы фото заполняло весь экран */
-  .hero-slide img{object-fit:cover;object-position:center 15%;opacity:.65}
+  .hero-slide img{object-fit:cover;object-position:center center;opacity:.65}
   .hero-content{padding:0 1.5rem 4rem}.scroll-hint{right:1.5rem;bottom:1.5rem}
   .facts{padding:4rem 1.5rem}.facts-inner{grid-template-columns:1fr;gap:3rem}
   .portfolio{padding:4rem 1.5rem}.videos{padding:4rem 1.5rem}.contact{padding:4rem 1.5rem}
@@ -479,14 +479,15 @@ photoTrack.addEventListener('transitionend',()=>{
   else if(photoPos<0){photoPos+=photoSetW;photoTrack.style.transition='none';photoTrack.style.transform=`translateX(-${photoPos}px)`}
 });
 
-/* ── VIDEO CAROUSEL (FIX 9: no muted attribute = sound works) ── */
+/* ── VIDEO CAROUSEL ── */
 const videos=['IMG_1213.MP4','IMG_2990.MP4','IMG_2991.MP4','IMG_2992.MP4','IMG_2993.MP4','IMG_1408.MP4','IMG_1214.MP4'];
 const videoTrack=document.getElementById('videoTrack');
 videos.forEach(v=>{
   const d=document.createElement('div');d.className='vid-item';d.onclick=function(){toggleVideo(this)};
-  // No muted attribute — video will play with sound
-  d.innerHTML=`<video src="images/${v}" loop playsinline preload="metadata"></video><div class="vid-overlay"><div class="play-btn"><div class="play-icon"></div></div></div>`;
+  d.innerHTML=`<video src="images/${v}" loop playsinline preload="auto"></video><div class="vid-overlay"><div class="play-btn"><div class="play-icon"></div></div></div>`;
   videoTrack.appendChild(d);
+  const vid=d.querySelector('video');
+  vid.addEventListener('loadeddata',()=>{vid.currentTime=0.001});
 });
 let vidPos=0;
 function vidMove(dir){
