@@ -95,8 +95,11 @@ h2 em{font-style:italic;color:var(--gold)}
 .client-chip:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-4px)}
 .clients-note{font-size:1rem;line-height:1.8;color:var(--muted);margin-top:2.5rem;font-weight:300;max-width:520px;margin-left:auto;margin-right:auto}
 
-/* ── PORTFOLIO ── */
-.portfolio{background:var(--dark);padding:7rem 4rem}
+/* ── CAROUSEL DRAG ── */
+.carousel-viewport{overflow:hidden;cursor:grab}
+.carousel-viewport.dragging{cursor:grabbing}
+.carousel-viewport.dragging .carousel-item img,
+.carousel-viewport.dragging .carousel-item video{pointer-events:none}
 .carousel{margin-top:3rem}
 .carousel-viewport{overflow:hidden}
 .carousel-track{display:flex;gap:1rem;transition:transform .6s cubic-bezier(.65,0,.35,1)}
@@ -166,7 +169,16 @@ footer{background:var(--dark2);padding:2rem 4rem;display:flex;justify-content:sp
 
 @media(max-width:900px){
   nav{padding:1rem 1.5rem}.nav-links,.nav-cta{display:none}
-  .hero-slide img{object-fit:cover;object-position:55% 20%;opacity:.65}
+  /* Все слайды — cover по центру */
+  .hero-slide img{object-fit:cover;object-position:center 15%;opacity:.65}
+  /* Слайд 1: the_first — лицо сверху, нужно чуть ниже */
+  .hero-slide:nth-child(1) img{object-position:center 10%}
+  /* Слайд 2: the_second — лицо уходит вверх, опускаем */
+  .hero-slide:nth-child(2) img{object-position:center 5%}
+  /* Слайд 3: the_therd — тёмное фото, по центру */
+  .hero-slide:nth-child(3) img{object-position:center 20%}
+  /* Слайд 4: the_forth — голова обрезается, поднимаем */
+  .hero-slide:nth-child(4) img{object-position:center 0%}
   .hero-content{padding:0 1.5rem 4rem}.scroll-hint{right:1.5rem;bottom:1.5rem}
   .facts{padding:4rem 1.5rem}.facts-inner{grid-template-columns:1fr;gap:3rem}
   .portfolio{padding:4rem 1.5rem}.videos{padding:4rem 1.5rem}.contact{padding:4rem 1.5rem}
@@ -479,17 +491,92 @@ function toggleVideo(card){
   }
 }
 
-/* ── TOUCH SWIPE ── */
-function addSwipe(track,moveFn){
-  let sx=0;
-  track.addEventListener('touchstart',e=>{sx=e.touches[0].clientX},{passive:true});
-  track.addEventListener('touchend',e=>{
-    const dx=e.changedTouches[0].clientX-sx;
-    if(Math.abs(dx)>40)moveFn(dx<0?1:-1);
-  },{passive:true});
+/* ── DRAG SCROLL для каруселей (мышь + тач) ── */
+function makeDraggable(viewport, getPos, setPos, onTap){
+  const track = viewport.querySelector('.carousel-track');
+  let startX=0, startPos=0, isDragging=false, moved=false, velX=0, lastX=0, lastT=0, rafId=null;
+
+  function applyPos(p, animated){
+    track.style.transition = animated ? 'transform .45s cubic-bezier(.25,.46,.45,.94)' : 'none';
+    track.style.transform = `translateX(${-p}px)`;
+  }
+
+  function onDown(x){
+    isDragging=true; moved=false;
+    startX=x; startPos=getPos(); velX=0; lastX=x; lastT=Date.now();
+    track.style.transition='none';
+    viewport.classList.add('dragging');
+    if(rafId){cancelAnimationFrame(rafId);rafId=null;}
+  }
+  function onMove(x){
+    if(!isDragging)return;
+    const dx=x-startX;
+    if(Math.abs(dx)>4)moved=true;
+    const now=Date.now(); const dt=now-lastT||1;
+    velX=(x-lastX)/dt*16; lastX=x; lastT=now;
+    setPos(startPos-dx, false);
+  }
+  function onUp(x, isTap){
+    if(!isDragging)return;
+    isDragging=false;
+    viewport.classList.remove('dragging');
+    if(!moved && isTap){onTap && onTap(x); return;}
+    // инерция
+    let pos=getPos();
+    function inertia(){
+      if(Math.abs(velX)<0.3){applyPos(pos,false);return;}
+      velX*=0.92;
+      pos-=velX;
+      track.style.transform=`translateX(${-pos}px)`;
+      setPos(pos, false, true); // обновляем внутреннее значение без CSS
+      rafId=requestAnimationFrame(inertia);
+    }
+    rafId=requestAnimationFrame(inertia);
+  }
+
+  // Mouse
+  viewport.addEventListener('mousedown',e=>{onDown(e.clientX);e.preventDefault()});
+  window.addEventListener('mousemove',e=>{if(isDragging)onMove(e.clientX)});
+  window.addEventListener('mouseup',e=>{onUp(e.clientX,!moved)});
+
+  // Touch
+  viewport.addEventListener('touchstart',e=>{onDown(e.touches[0].clientX)},{passive:true});
+  viewport.addEventListener('touchmove',e=>{onMove(e.touches[0].clientX)},{passive:true});
+  viewport.addEventListener('touchend',e=>{onUp(e.changedTouches[0].clientX,!moved)},{passive:true});
 }
-addSwipe(document.getElementById('photoTrack'),photoMove);
-addSwipe(document.getElementById('videoTrack'),vidMove);
+
+/* Фото */
+const photoViewport = document.querySelector('.portfolio .carousel-viewport');
+makeDraggable(photoViewport,
+  ()=>photoPos,
+  (p, animated, raw)=>{
+    if(!raw){
+      // бесконечная прокрутка
+      if(p>=photoSetW) p-=photoSetW;
+      else if(p<0) p+=photoSetW;
+      photoPos=p;
+    }
+    photoTrack.style.transform=`translateX(${-photoPos}px)`;
+  },
+  null
+);
+
+/* Видео */
+const videoViewport = document.querySelector('.videos .carousel-viewport');
+makeDraggable(videoViewport,
+  ()=>vidPos,
+  (p, animated, raw)=>{
+    const maxScroll=Math.max(0,videoTrack.scrollWidth-videoViewport.offsetWidth);
+    if(!raw) vidPos=Math.max(0,Math.min(p,maxScroll));
+    videoTrack.style.transform=`translateX(${-vidPos}px)`;
+  },
+  (x)=>{
+    // тап на видео — переключаем воспроизведение
+    const el=document.elementFromPoint(x,0);
+    const card=el&&el.closest('.vid-item');
+    if(card)toggleVideo(card);
+  }
+);
 
 /* ── LIGHTBOX ── */
 let lbIdx=0;
