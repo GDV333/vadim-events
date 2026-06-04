@@ -32,48 +32,46 @@ nav.scrolled{background:rgba(8,8,7,.88);backdrop-filter:blur(14px);padding:1rem 
 .hero-slides{position:absolute;inset:0;z-index:0}
 .hero-slide{position:absolute;inset:0;opacity:0;transition:opacity 2.5s ease}
 .hero-slide.active{opacity:1}
-.hero-slide img{width:100%;height:100%;object-fit:contain;object-position:center 10%;opacity:.55;background:var(--dark)}
+/* FIX 1: object-fit:cover fills the full screen */
+.hero-slide img{width:100%;height:100%;object-fit:cover;object-position:center top;opacity:.6;background:var(--dark)}
 .hero-slide.active img{animation:kenburns 8s ease forwards}
-.hero-slides::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(8,8,7,1) 0%,rgba(8,8,7,.4) 45%,rgba(8,8,7,.1) 100%);z-index:1}
+.hero-slides::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(8,8,7,1) 0%,rgba(8,8,7,.35) 40%,rgba(8,8,7,.05) 100%);z-index:1}
 .hero-content{position:relative;z-index:2;padding:0 4rem 6rem;width:100%}
 .hero-eyebrow{font-size:.6rem;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem;opacity:0;animation:fadeUp .8s .3s forwards}
 .hero-eyebrow::before{content:'';width:3rem;height:1px;background:var(--gold);opacity:.6}
 h1{font-family:'Cormorant Garamond',serif;font-size:clamp(4rem,8vw,9rem);font-weight:300;line-height:.95;color:#fff;opacity:0;animation:fadeUp .8s .5s forwards}
 h1 em{font-style:italic;color:var(--gold)}
 .hero-sub{font-size:.65rem;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);margin-top:1.5rem;opacity:0;animation:fadeUp .8s .7s forwards}
-.scroll-hint{position:absolute;bottom:2rem;right:4rem;z-index:2;display:flex;flex-direction:column;align-items:center;gap:.8rem;opacity:0;animation:fadeIn 1s 1.5s forwards}
-.scroll-hint span{font-size:.55rem;letter-spacing:.25em;text-transform:uppercase;color:var(--muted);writing-mode:vertical-rl}
-.scroll-line{width:1px;height:4rem;background:linear-gradient(to bottom,var(--gold),transparent);animation:scrollAnim 2s infinite}
 
-/* ── EFFECT 1: STICKY ABOUT — panels slide up over fixed bg ── */
-.about-sticky-wrapper{position:relative;height:300vh}
-.about-sticky{position:sticky;top:0;height:100vh;overflow:hidden;background:var(--dark)}
-.about-bg-photo{position:absolute;inset:0;z-index:0}
-.about-bg-photo img{width:100%;height:100%;object-fit:cover;object-position:center 15%;opacity:0;transition:opacity 1.5s ease}
-.about-bg-photo img.loaded{opacity:.18}
-.about-bg-photo::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(8,8,7,.95) 40%,rgba(8,8,7,.5) 100%)}
-/* Panel that slides up from bottom */
-.about-panel{position:absolute;bottom:0;left:0;right:0;z-index:2;transform:translateY(100%);transition:none}
-.about-panel-inner{display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center;padding:5rem 4rem 6rem}
-/* Photo panel slides in from left */
-.about-photo-panel{position:absolute;left:0;top:0;bottom:0;width:45%;z-index:3;transform:translateX(-100%);transition:none}
-.about-photo-panel img{width:100%;height:100%;object-fit:cover;object-position:center 15%}
-.about-photo-frame{position:absolute;top:2rem;left:2rem;right:-1rem;bottom:-1rem;border:1px solid rgba(200,169,110,.2);pointer-events:none;z-index:-1}
-/* Text content */
-.about-text-panel{position:absolute;right:0;top:0;bottom:0;width:50%;z-index:3;display:flex;flex-direction:column;justify-content:center;padding:4rem;transform:translateX(100%);transition:none}
+/* FIX 2: improved scroll hint */
+.scroll-hint{position:absolute;bottom:2.5rem;right:4rem;z-index:2;display:flex;flex-direction:column;align-items:center;gap:.6rem;opacity:0;animation:fadeIn 1s 1.5s forwards;cursor:pointer}
+.scroll-hint-label{font-size:.55rem;letter-spacing:.25em;text-transform:uppercase;color:var(--muted);writing-mode:vertical-rl}
+.scroll-hint-arrow{display:flex;flex-direction:column;align-items:center;gap:3px}
+.scroll-hint-arrow span{display:block;width:1px;background:var(--gold);animation:scrollDrop 1.8s infinite}
+.scroll-hint-arrow span:nth-child(1){height:12px;animation-delay:0s}
+.scroll-hint-arrow span:nth-child(2){height:12px;animation-delay:.15s}
+.scroll-hint-arrow span:nth-child(3){height:12px;animation-delay:.3s}
+.scroll-mouse{width:22px;height:34px;border:1px solid rgba(200,169,110,.5);border-radius:11px;display:flex;justify-content:center;padding-top:5px;margin-bottom:6px}
+.scroll-mouse-dot{width:3px;height:6px;background:var(--gold);border-radius:2px;animation:mouseScroll 1.8s infinite}
+
+/* ── ABOUT (no sticky) ── */
+.about-section{background:var(--dark);padding:8rem 4rem;display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center}
+.about-photo-wrap{position:relative}
+.about-photo-wrap img{width:100%;height:580px;object-fit:cover;object-position:center 15%;display:block}
+.about-photo-frame{position:absolute;top:1.5rem;left:1.5rem;right:-1.5rem;bottom:-1.5rem;border:1px solid rgba(200,169,110,.2);pointer-events:none;z-index:-1}
 .label{font-size:.6rem;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem;display:flex;align-items:center;gap:.8rem}
 .label::before{content:'';width:2rem;height:1px;background:var(--gold)}
 h2{font-family:'Cormorant Garamond',serif;font-size:clamp(2.5rem,4vw,4.5rem);font-weight:300;line-height:1.05;color:#fff}
 h2 em{font-style:italic;color:var(--gold)}
-.about-desc{font-size:.9rem;line-height:1.9;color:var(--muted);margin-top:2rem;font-weight:300}
+/* FIX 4: bigger about description font */
+.about-desc{font-size:1.05rem;line-height:1.9;color:var(--muted);margin-top:2rem;font-weight:300}
 .stats-row{display:flex;gap:3rem;margin-top:3rem;padding-top:2rem;border-top:1px solid var(--dim)}
 .stat-n{font-family:'Cormorant Garamond',serif;font-size:3rem;font-weight:300;color:var(--gold);line-height:1}
 .stat-l{font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-top:.3rem}
 
-/* ── EFFECT 2: WORD-BY-WORD FACTS ── */
+/* ── FACTS ── */
 .facts{background:var(--dark2);padding:7rem 4rem}
 .facts-inner{display:grid;grid-template-columns:1fr 1fr;gap:8rem;align-items:center}
-/* Word reveal title */
 .word-reveal-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2.5rem,4vw,4.5rem);font-weight:300;line-height:1.1;color:#fff}
 .word-reveal-title .word{display:inline-block;opacity:1;margin-right:.25em}
 .word-reveal-title .word.gold{color:var(--gold);font-style:italic}
@@ -84,43 +82,45 @@ h2 em{font-style:italic;color:var(--gold)}
 .fact-item:hover{padding-left:1rem}
 .fact-item:hover .fact-t{color:var(--text)}
 .fact-num{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-style:italic;color:var(--gold);opacity:.5;min-width:2rem;margin-top:.1rem}
-.fact-t{font-size:.95rem;line-height:1.7;color:var(--muted);font-weight:300;transition:color .4s}
+/* FIX 4: bigger fact text */
+.fact-t{font-size:1.05rem;line-height:1.7;color:var(--muted);font-weight:300;transition:color .4s}
 .fact-t strong{color:var(--text);font-weight:400}
 
-/* ── EFFECT 3: HORIZONTAL SCROLL SERVICES ── */
-.services-sticky-wrapper{position:relative;height:500vh}
-.services-sticky{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;flex-direction:column;justify-content:center;background:var(--dark3)}
-.services-header{padding:0 4rem 2rem;flex-shrink:0}
-.horiz-track-outer{overflow:hidden;position:relative;flex:1;display:flex;align-items:center}
-.horiz-track{display:flex;gap:0;will-change:transform;align-items:stretch}
-.horiz-slide{min-width:100vw;height:70vh;display:grid;grid-template-columns:1fr 1fr;flex-shrink:0}
+/* ── SERVICES (no horizontal scroll, simple grid) ── */
+.services{background:var(--dark3);padding:7rem 4rem}
+.services-header{margin-bottom:4rem}
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0}
+.srv-card{display:grid;grid-template-columns:1fr 1fr;min-height:420px}
+.srv-card:nth-child(even) .horiz-img{order:2}
+.srv-card:nth-child(even) .horiz-info{order:1}
+/* FIX 5: center the services title text vertically */
 .horiz-img{overflow:hidden;position:relative}
-.horiz-img img{width:100%;height:100%;object-fit:cover;object-position:center 22%}
-.horiz-info{background:var(--dark2);padding:4rem;display:flex;flex-direction:column;justify-content:center;position:relative}
-.horiz-n{position:absolute;top:2rem;right:3rem;font-family:'Cormorant Garamond',serif;font-size:4rem;font-weight:300;color:var(--dim)}
-.horiz-title{font-family:'Cormorant Garamond',serif;font-size:2.5rem;font-weight:400;color:#fff;margin-bottom:1.5rem}
-.horiz-desc{font-size:.88rem;line-height:1.9;color:var(--muted);font-weight:300;max-width:400px}
-/* Progress dots */
-.horiz-dots{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);display:flex;gap:.6rem;z-index:10}
-.horiz-dot{width:28px;height:2px;background:var(--dim);transition:background .4s,width .4s}
-.horiz-dot.active{background:var(--gold);width:48px}
-/* Scroll indicator */
-.horiz-scroll-hint{position:absolute;right:3rem;bottom:2.5rem;font-size:.55rem;letter-spacing:.25em;text-transform:uppercase;color:var(--dim);display:flex;align-items:center;gap:.5rem}
-.horiz-arrow{animation:bounceX 1.5s infinite}
+.horiz-img img{width:100%;height:100%;object-fit:cover;object-position:center 22%;transition:transform .6s}
+.horiz-img:hover img{transform:scale(1.04)}
+.horiz-info{background:var(--dark2);padding:3rem;display:flex;flex-direction:column;justify-content:center;position:relative}
+.horiz-n{position:absolute;top:1.5rem;right:2rem;font-family:'Cormorant Garamond',serif;font-size:3.5rem;font-weight:300;color:var(--dim)}
+.horiz-title{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:400;color:#fff;margin-bottom:1.2rem}
+/* FIX 4 & 5: bigger service description, vertically centered */
+.horiz-desc{font-size:1rem;line-height:1.9;color:var(--muted);font-weight:300;max-width:400px}
+
+/* New layout: 3 cards per row, then bottom row */
+.services-grid-top{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-bottom:2px}
+.services-grid-bottom{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.srv-block{position:relative;overflow:hidden;height:420px}
+.srv-block img{width:100%;height:100%;object-fit:cover;object-position:center 22%;transition:transform .6s,filter .5s}
+.srv-block:hover img{transform:scale(1.05);filter:brightness(1.1)}
+.srv-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(8,8,7,.92) 0%,rgba(8,8,7,.2) 60%,rgba(8,8,7,0) 100%);display:flex;flex-direction:column;justify-content:flex-end;padding:2.5rem}
+.srv-n{font-family:'Cormorant Garamond',serif;font-size:1rem;font-style:italic;color:var(--gold);opacity:.6;margin-bottom:.5rem}
+.srv-title{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:400;color:#fff;margin-bottom:.8rem}
+/* FIX 4: bigger service desc */
+.srv-desc{font-size:1rem;line-height:1.75;color:rgba(234,230,220,.6);font-weight:300;max-width:320px}
 
 /* ── CLIENTS ── */
-.clients{position:relative;background:var(--dark);padding:0}
-.clients-pin{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;align-items:center;justify-content:center}
-.clients-bg{position:absolute;inset:0;z-index:0}
-.clients-bg img{width:100%;height:100%;object-fit:cover;opacity:.28}
-.clients-bg::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(8,8,7,.6) 0%,rgba(8,8,7,.92) 80%);z-index:1}
-.clients-content{position:relative;z-index:2;text-align:center;max-width:1000px;padding:0 2rem}
-.clients-content .label{justify-content:center}
-.clients-content .label::after{content:'';width:2rem;height:1px;background:var(--gold)}
+.clients-section{background:var(--dark);padding:7rem 4rem;text-align:center}
 .clients-logos{display:flex;flex-wrap:wrap;justify-content:center;gap:2rem;margin-top:3.5rem}
 .client-chip{padding:1.4rem 3rem;border:1px solid var(--mid);font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:400;letter-spacing:.05em;color:var(--text);background:rgba(15,15,13,.5);transition:all .4s}
 .client-chip:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-4px)}
-.clients-note{font-size:.85rem;line-height:1.8;color:var(--muted);margin-top:2.5rem;font-weight:300;max-width:520px;margin-left:auto;margin-right:auto}
+.clients-note{font-size:1rem;line-height:1.8;color:var(--muted);margin-top:2.5rem;font-weight:300;max-width:520px;margin-left:auto;margin-right:auto}
 
 /* ── PORTFOLIO ── */
 .portfolio{background:var(--dark);padding:7rem 4rem}
@@ -131,14 +131,16 @@ h2 em{font-style:italic;color:var(--gold)}
 .carousel-item img{width:100%;height:100%;object-fit:cover;transition:transform .6s,filter .4s}
 .carousel-item:hover img{transform:scale(1.05);filter:brightness(1.1)}
 .carousel-nav{display:flex;justify-content:space-between;align-items:center;margin-top:2rem}
-.carousel-arrows{display:flex;gap:.8rem}
+.carousel-arrows{display:flex;gap:.8rem;align-items:center}
 .car-arrow{width:3rem;height:3rem;border:1px solid var(--mid);background:transparent;color:var(--muted);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.2rem;transition:all .3s}
 .car-arrow:hover{border-color:var(--gold);color:var(--gold)}
+/* FIX 8: hint next to arrows */
 .car-hint{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
 
 /* ── VIDEOS ── */
 .videos{background:var(--dark2);padding:7rem 4rem}
 .vid-item{flex:0 0 auto;width:240px;height:420px;overflow:hidden;position:relative;cursor:pointer;background:var(--dark3)}
+/* FIX 9: videos have sound — removed muted attribute via JS */
 .vid-item video{width:100%;height:100%;object-fit:cover;opacity:.75;transition:opacity .4s}
 .vid-item:hover video{opacity:1}
 .vid-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(8,8,7,.25);transition:background .3s}
@@ -156,8 +158,11 @@ h2 em{font-style:italic;color:var(--gold)}
 .phone{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,5vw,5rem);font-weight:300;color:#fff;text-decoration:none;display:block;margin:1.5rem 0;transition:color .3s}
 .phone:hover{color:var(--gold)}
 .social-row{display:flex;gap:1.5rem;justify-content:center;margin-top:2rem}
+/* FIX 10: real social icons via SVG */
 .soc-link{display:flex;align-items:center;gap:.7rem;padding:.8rem 2rem;border:1px solid var(--dim);text-decoration:none;color:var(--muted);font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;transition:all .3s}
 .soc-link:hover{border-color:var(--gold);color:var(--gold)}
+.soc-link svg{width:18px;height:18px;fill:currentColor;flex-shrink:0}
+.soc-link:hover svg{fill:var(--gold)}
 .cta-main{display:inline-block;margin-top:3rem;background:var(--gold);color:var(--dark);padding:1.1rem 3rem;font-family:'Jost',sans-serif;font-size:.65rem;letter-spacing:.25em;text-transform:uppercase;font-weight:500;text-decoration:none;transition:all .3s}
 .cta-main:hover{background:var(--gold2);transform:translateY(-2px);box-shadow:0 12px 32px rgba(200,169,110,.2)}
 
@@ -178,11 +183,10 @@ footer{background:var(--dark2);padding:2rem 4rem;display:flex;justify-content:sp
 /* ── KEYFRAMES ── */
 @keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-@keyframes scrollAnim{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
 @keyframes kenburns{from{transform:scale(1.0)}to{transform:scale(1.06)}}
-@keyframes bounceX{0%,100%{transform:translateX(0)}50%{transform:translateX(6px)}}
+@keyframes mouseScroll{0%,100%{transform:translateY(0);opacity:1}50%{transform:translateY(8px);opacity:.3}}
+@keyframes scrollDrop{0%{opacity:0;transform:translateY(-4px)}50%{opacity:1}100%{opacity:0;transform:translateY(4px)}}
 
-/* reveal for sections after sticky effects */
 .reveal{opacity:0;transform:translateY(40px);transition:opacity 1s ease,transform 1s ease}
 .reveal.vis{opacity:1;transform:none}
 .reveal-left{opacity:0;transform:translateX(-50px);transition:opacity 1s ease,transform 1s ease}
@@ -195,16 +199,15 @@ footer{background:var(--dark2);padding:2rem 4rem;display:flex;justify-content:sp
   .hero-content{padding:0 1.5rem 4rem}.scroll-hint{right:1.5rem}
   .facts{padding:4rem 1.5rem}.facts-inner{grid-template-columns:1fr;gap:3rem}
   .portfolio{padding:4rem 1.5rem}.videos{padding:4rem 1.5rem}.contact{padding:4rem 1.5rem}
-  .about-panel-inner{grid-template-columns:1fr;padding:2rem 1.5rem 4rem}
-  .horiz-slide{min-width:100vw;grid-template-columns:1fr;height:auto}
+  .about-section{grid-template-columns:1fr;padding:4rem 1.5rem;gap:3rem}
+  .services{padding:4rem 1.5rem}
+  .services-grid-top,.services-grid-bottom{grid-template-columns:1fr}
+  .srv-block{height:280px}
   .carousel-item{width:260px;height:360px}.vid-item{width:200px;height:340px}
   .client-chip{padding:1rem 2rem;font-size:1.2rem}.clients-logos{gap:1rem}
   footer{flex-direction:column;gap:1rem;padding:1.5rem;text-align:center}
   .social-row{flex-direction:column;align-items:center}
-  .horiz-scroll-hint{display:none}
-  .about-sticky-wrapper{height:auto}.about-sticky{position:relative;height:auto;padding:4rem 1.5rem}
-  .about-photo-panel,.about-text-panel{position:relative;width:100%;transform:none}
-  .services-sticky-wrapper{height:auto}.services-sticky{position:relative;height:auto}
+  .clients-section{padding:4rem 1.5rem}
 }
 </style>
 </head>
@@ -236,39 +239,36 @@ footer{background:var(--dark2);padding:2rem 4rem;display:flex;justify-content:sp
     <h1>Вадим<br><em>Тартынский</em></h1>
     <p class="hero-sub">Свадьбы · Корпоративы · Концерты · Дни рождения</p>
   </div>
-  <div class="scroll-hint"><div class="scroll-line"></div><span>Листать</span></div>
+  <!-- FIX 2: improved scroll hint -->
+  <div class="scroll-hint" onclick="window.scrollBy({top:window.innerHeight,behavior:'smooth'})">
+    <div class="scroll-mouse"><div class="scroll-mouse-dot"></div></div>
+    <div class="scroll-hint-label">Листать</div>
+  </div>
 </section>
 
-<!-- ══ EFFECT 1: STICKY ABOUT ══ -->
-<div class="about-sticky-wrapper" id="about">
-  <div class="about-sticky" id="aboutSticky">
-    <div class="about-bg-photo">
-      <img src="images/5256195249481129385.jpg" id="aboutBgImg" alt="">
-    </div>
-    <!-- photo slides in from left -->
-    <div class="about-photo-panel" id="aboutPhoto">
-      <img src="images/5256195249481129385.jpg" alt="Вадим Тартынский">
-      <div class="about-photo-frame"></div>
-    </div>
-    <!-- text slides in from right -->
-    <div class="about-text-panel" id="aboutText">
-      <div class="label">О ведущем</div>
-      <h2>Делаю праздники<br><em>живыми</em></h2>
-      <p class="about-desc">Ведущий с богатым опытом. Каждое мероприятие — это история, которую запомнят все присутствующие. Никаких шаблонов, только живые эмоции и настоящая атмосфера.</p>
-      <div class="stats-row">
-        <div><div class="stat-n">5+</div><div class="stat-l">Лет опыта</div></div>
-        <div><div class="stat-n">200+</div><div class="stat-l">Мероприятий</div></div>
-      </div>
+<!-- ABOUT (FIX 3: no sticky effect) -->
+<section class="about-section" id="about">
+  <div class="about-photo-wrap reveal-left">
+    <img src="images/5256195249481129385.jpg" alt="Вадим Тартынский">
+    <div class="about-photo-frame"></div>
+  </div>
+  <div class="reveal">
+    <div class="label">О ведущем</div>
+    <h2>Делаю праздники<br><em>живыми</em></h2>
+    <p class="about-desc">Ведущий с богатым опытом. Каждое мероприятие — это история, которую запомнят все присутствующие. Никаких шаблонов, только живые эмоции и настоящая атмосфера.</p>
+    <div class="stats-row">
+      <div><div class="stat-n">5+</div><div class="stat-l">Лет опыта</div></div>
+      <div><div class="stat-n">200+</div><div class="stat-l">Мероприятий</div></div>
     </div>
   </div>
-</div>
+</section>
 
-<!-- ══ EFFECT 2: WORD-BY-WORD FACTS ══ -->
+<!-- FACTS -->
 <section class="facts">
   <div class="facts-inner">
     <div>
       <div class="label">Факты</div>
-      <div class="word-reveal-title" id="wordTitle">
+      <div class="word-reveal-title">
         <span class="word">Несколько</span>
         <span class="word">слов</span>
         <span class="word">о</span>
@@ -284,64 +284,80 @@ footer{background:var(--dark2);padding:2rem 4rem;display:flex;justify-content:sp
   </div>
 </section>
 
-<!-- ══ EFFECT 3: HORIZONTAL SCROLL SERVICES ══ -->
-<div class="services-sticky-wrapper" id="services">
-  <div class="services-sticky">
-    <div class="services-header reveal-left">
-      <div class="label">Мероприятия</div>
-      <h2>Работаю на любых <em>площадках</em></h2>
-    </div>
-    <div class="horiz-track-outer">
-      <div class="horiz-track" id="horizTrack">
-        <div class="horiz-slide">
-          <div class="horiz-img"><img src="images/5323388062911894244.jpg" alt="Свадьбы"></div>
-          <div class="horiz-info"><div class="horiz-n">01</div><div class="horiz-title">Свадьбы</div><div class="horiz-desc">Романтика, юмор и атмосфера любви. Никаких банальных конкурсов — только искренние эмоции и атмосфера любви.</div></div>
-        </div>
-        <div class="horiz-slide">
-          <div class="horiz-img"><img src="images/5319234833831629977.jpg" alt="Корпоративы"></div>
-          <div class="horiz-info"><div class="horiz-n">02</div><div class="horiz-title">Корпоративы</div><div class="horiz-desc">Сплочение команды и заряд позитива. Живое общение и динамика до самого финала.</div></div>
-        </div>
-        <div class="horiz-slide">
-          <div class="horiz-img"><img src="images/5323388062911894250.jpg" alt="Дни рождения"></div>
-          <div class="horiz-info"><div class="horiz-n">03</div><div class="horiz-title">Дни рождения</div><div class="horiz-desc">Независимо от формата — создаю настроение с первых минут. Максимум позитива и минимум шаблонов.</div></div>
-        </div>
-        <div class="horiz-slide">
-          <div class="horiz-img"><img src="images/5256195249481129366.jpg" alt="Выпускные"></div>
-          <div class="horiz-info"><div class="horiz-n">04</div><div class="horiz-title">Выпускные</div><div class="horiz-desc">Особый день, который останется в памяти навсегда. Музыка, сюрпризы и тёплая атмосфера.</div></div>
-        </div>
-        <div class="horiz-slide">
-          <div class="horiz-img"><img src="images/5319234833831629976.jpg" alt="Концерты"></div>
-          <div class="horiz-info"><div class="horiz-n">05</div><div class="horiz-title">Концерты</div><div class="horiz-desc">Управляю вниманием зала и создаю ритм события. Аудитория в нужном настроении от начала до конца.</div></div>
-        </div>
-        <div class="horiz-slide">
-          <div class="horiz-img"><img src="images/5323388062911894248.jpg" alt="Бизнес"></div>
-          <div class="horiz-info"><div class="horiz-n">06</div><div class="horiz-title">Бизнес-события</div><div class="horiz-desc">Точность, стиль и уверенность. Профессионализм на каждом этапе программы.</div></div>
-        </div>
-      </div>
-    </div>
-    <div class="horiz-dots" id="horizDots"></div>
-    <div class="horiz-scroll-hint">Листайте вниз <span class="horiz-arrow">→</span></div>
+<!-- SERVICES (FIX 3: no horizontal scroll, FIX 5: centered, FIX 6: выпускные between корпоративы and дни рождения) -->
+<section class="services" id="services">
+  <div class="services-header reveal-left">
+    <div class="label">Мероприятия</div>
+    <h2>Работаю на любых <em>площадках</em></h2>
   </div>
-</div>
-
-<!-- CLIENTS -->
-<section class="clients">
-  <div class="clients-pin">
-    <div class="clients-bg"><img src="images/5319234833831629977.jpg" alt=""></div>
-    <div class="clients-content">
-      <div class="label reveal-left">Доверяют</div>
-      <h2 class="reveal">Работаю с <em>крупными компаниями</em></h2>
-      <div class="clients-logos reveal">
-        <div class="client-chip">Сбер</div>
-        <div class="client-chip">FESCO</div>
-        <div class="client-chip">Тепло Пром Групп</div>
+  <div class="services-grid-top reveal-scale">
+    <div class="srv-block">
+      <img src="images/5323388062911894244.jpg" alt="Свадьбы">
+      <div class="srv-overlay">
+        <div class="srv-n">01</div>
+        <div class="srv-title">Свадьбы</div>
+        <div class="srv-desc">Романтика, юмор и атмосфера любви. Никаких банальных конкурсов — только искренние эмоции.</div>
       </div>
-      <p class="clients-note reveal">Веду корпоративные мероприятия для ведущих компаний — от деловых событий до масштабных праздников.</p>
+    </div>
+    <div class="srv-block">
+      <img src="images/5319234833831629977.jpg" alt="Корпоративы">
+      <div class="srv-overlay">
+        <div class="srv-n">02</div>
+        <div class="srv-title">Корпоративы</div>
+        <div class="srv-desc">Сплочение команды и заряд позитива. Живое общение и динамика до самого финала.</div>
+      </div>
+    </div>
+    <div class="srv-block">
+      <img src="images/5256195249481129366.jpg" alt="Выпускные">
+      <div class="srv-overlay">
+        <div class="srv-n">03</div>
+        <div class="srv-title">Выпускные</div>
+        <div class="srv-desc">Особый день, который останется в памяти навсегда. Музыка, сюрпризы и тёплая атмосфера.</div>
+      </div>
+    </div>
+  </div>
+  <div class="services-grid-bottom reveal-scale">
+    <div class="srv-block">
+      <img src="images/5323388062911894250.jpg" alt="Дни рождения">
+      <div class="srv-overlay">
+        <div class="srv-n">04</div>
+        <div class="srv-title">Дни рождения</div>
+        <div class="srv-desc">Независимо от формата — создаю настроение с первых минут. Максимум позитива.</div>
+      </div>
+    </div>
+    <div class="srv-block">
+      <img src="images/5319234833831629976.jpg" alt="Концерты">
+      <div class="srv-overlay">
+        <div class="srv-n">05</div>
+        <div class="srv-title">Концерты</div>
+        <div class="srv-desc">Управляю вниманием зала и создаю ритм события. Аудитория в нужном настроении от начала до конца.</div>
+      </div>
+    </div>
+    <div class="srv-block">
+      <img src="images/5323388062911894248.jpg" alt="Бизнес">
+      <div class="srv-overlay">
+        <div class="srv-n">06</div>
+        <div class="srv-title">Бизнес-события</div>
+        <div class="srv-desc">Точность, стиль и уверенность. Профессионализм на каждом этапе программы.</div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- PORTFOLIO -->
+<!-- CLIENTS (FIX 7: added НГТУ) -->
+<section class="clients-section" id="clients">
+  <div class="label reveal-left" style="justify-content:center"><span style="display:none"></span>Доверяют</div>
+  <h2 class="reveal">Работаю с <em>крупными компаниями</em></h2>
+  <div class="clients-logos reveal">
+    <div class="client-chip">Сбер</div>
+    <div class="client-chip">FESCO</div>
+    <div class="client-chip">Тепло Пром Групп</div>
+    <div class="client-chip">НГТУ</div>
+  </div>
+  <p class="clients-note reveal">Веду корпоративные мероприятия для ведущих компаний — от деловых событий до масштабных праздников.</p>
+</section>
+
+<!-- PORTFOLIO (FIX 8: hint moved next to arrows) -->
 <section class="portfolio" id="portfolio">
   <div class="reveal-left">
     <div class="label">Портфолио</div>
@@ -352,16 +368,17 @@ footer{background:var(--dark2);padding:2rem 4rem;display:flex;justify-content:sp
       <div class="carousel-track" id="photoTrack"></div>
     </div>
     <div class="carousel-nav">
-      <span class="car-hint">Листайте, чтобы посмотреть →</span>
+      <div></div>
       <div class="carousel-arrows">
         <button class="car-arrow" onclick="photoMove(-1)">‹</button>
+        <span class="car-hint">Листайте, чтобы посмотреть</span>
         <button class="car-arrow" onclick="photoMove(1)">›</button>
       </div>
     </div>
   </div>
 </section>
 
-<!-- VIDEOS -->
+<!-- VIDEOS (FIX 9: sound enabled) -->
 <section class="videos">
   <div class="reveal-left">
     <div class="label">Видео</div>
@@ -372,16 +389,17 @@ footer{background:var(--dark2);padding:2rem 4rem;display:flex;justify-content:sp
       <div class="carousel-track" id="videoTrack"></div>
     </div>
     <div class="carousel-nav" style="margin-top:2rem">
-      <span class="car-hint">Нажмите на видео →</span>
+      <div></div>
       <div class="carousel-arrows">
         <button class="car-arrow" onclick="vidMove(-1)">‹</button>
+        <span class="car-hint">Нажмите на видео для воспроизведения</span>
         <button class="car-arrow" onclick="vidMove(1)">›</button>
       </div>
     </div>
   </div>
 </section>
 
-<!-- CONTACT -->
+<!-- CONTACT (FIX 10: real TG and VK icons) -->
 <section class="contact" id="contact">
   <div class="contact-bg-text">Вадим</div>
   <div class="contact-inner">
@@ -389,8 +407,20 @@ footer{background:var(--dark2);padding:2rem 4rem;display:flex;justify-content:sp
     <h2 class="reveal" style="font-size:clamp(2.5rem,5vw,5rem)">Забронируйте<br><em>свою дату</em></h2>
     <a href="tel:+79963141384" class="phone reveal">+7 (996) 314-13-84</a>
     <div class="social-row reveal">
-      <a href="https://t.me/vadimtartynskiy" class="soc-link" target="_blank">✈ Telegram</a>
-      <a href="https://vk.ru/vadimtartynskiy" class="soc-link" target="_blank">💬 ВКонтакте</a>
+      <!-- Telegram official icon -->
+      <a href="https://t.me/vadimtartynskiy" class="soc-link" target="_blank">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+        </svg>
+        Telegram
+      </a>
+      <!-- VK official icon -->
+      <a href="https://vk.ru/vadimtartynskiy" class="soc-link" target="_blank">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M15.684 0H8.316C1.592 0 0 1.592 0 8.316v7.368C0 22.408 1.592 24 8.316 24h7.368C22.408 24 24 22.408 24 15.684V8.316C24 1.592 22.408 0 15.684 0zm3.692 17.123h-1.744c-.66 0-.862-.525-2.049-1.714-1.033-1.01-1.49-1.135-1.744-1.135-.356 0-.458.102-.458.593v1.575c0 .424-.135.678-1.253.678-1.846 0-3.896-1.118-5.335-3.202C4.624 10.857 4 8.408 4 7.932c0-.254.102-.491.593-.491h1.744c.44 0 .61.203.779.677.864 2.49 2.303 4.675 2.896 4.675.22 0 .322-.102.322-.66V9.928c-.068-1.186-.695-1.287-.695-1.71 0-.203.17-.407.44-.407h2.744c.373 0 .508.203.508.643v3.473c0 .372.17.508.271.508.22 0 .407-.136.813-.542 1.254-1.406 2.151-3.574 2.151-3.574.119-.254.322-.491.763-.491h1.744c.525 0 .644.27.525.643-.22 1.017-2.354 4.031-2.354 4.031-.186.305-.254.44 0 .78.186.254.796.779 1.203 1.253.745.847 1.32 1.558 1.473 2.049.17.474-.085.745-.576.745z"/>
+        </svg>
+        ВКонтакте
+      </a>
     </div>
     <a href="tel:+79963141384" class="cta-main reveal">Позвонить</a>
   </div>
@@ -427,94 +457,18 @@ setInterval(()=>{
   img.style.animation='none';void img.offsetWidth;img.style.animation='kenburns 8s ease forwards';
 },5000);
 
-/* ── EFFECT 1: STICKY ABOUT — panels slide in as you scroll ── */
-const aboutWrapper=document.getElementById('about');
-const aboutPhoto=document.getElementById('aboutPhoto');
-const aboutText=document.getElementById('aboutText');
-const aboutBgImg=document.getElementById('aboutBgImg');
-aboutBgImg.onload=()=>aboutBgImg.classList.add('loaded');
-if(aboutBgImg.complete)aboutBgImg.classList.add('loaded');
-
-function updateAbout(){
-  const wh=window.innerHeight;
-  const rect=aboutWrapper.getBoundingClientRect();
-  const wrapH=aboutWrapper.offsetHeight;
-  // progress 0→1 through the sticky zone
-  const scrolled=-rect.top;
-  const total=wrapH-wh;
-  const p=Math.max(0,Math.min(1,scrolled/total));
-
-  // Phase 1 (0–0.4): photo slides in from left
-  const p1=Math.min(1,p/0.4);
-  const photoX=(1-easeOut(p1))*-100;
-  aboutPhoto.style.transform=`translateX(${photoX}%)`;
-  aboutPhoto.style.transition='none';
-
-  // Phase 2 (0.3–0.8): text slides in from right
-  const p2=Math.max(0,Math.min(1,(p-0.3)/0.5));
-  const textX=(1-easeOut(p2))*100;
-  aboutText.style.transform=`translateX(${textX}%)`;
-  aboutText.style.transition='none';
-}
-
-/* word reveal removed */
-
-/* ── EFFECT 3: HORIZONTAL SCROLL ── */
-const horizWrapper=document.getElementById('services');
-const horizTrack=document.getElementById('horizTrack');
-const slides=horizTrack.querySelectorAll('.horiz-slide');
-const slideCount=slides.length;
-
-// build dots
-const dotsEl=document.getElementById('horizDots');
-slides.forEach((_,i)=>{
-  const d=document.createElement('div');
-  d.className='horiz-dot'+(i===0?' active':'');
-  dotsEl.appendChild(d);
-});
-const dots=dotsEl.querySelectorAll('.horiz-dot');
-
-let currentSlide=0;
-function updateHoriz(){
-  const wh=window.innerHeight;
-  const rect=horizWrapper.getBoundingClientRect();
-  const wrapH=horizWrapper.offsetHeight;
-  const scrolled=-rect.top;
-  const total=wrapH-wh;
-  const p=Math.max(0,Math.min(1,scrolled/total));
-  // map progress to slide index
-  const rawIdx=p*(slideCount-1);
-  const idx=Math.round(rawIdx);
-  const exactX=rawIdx*window.innerWidth;
-  horizTrack.style.transform=`translateX(-${exactX}px)`;
-  horizTrack.style.transition='none';
-  if(idx!==currentSlide){
-    currentSlide=idx;
-    dots.forEach((d,i)=>d.classList.toggle('active',i===idx));
-  }
-}
-
 /* ── GENERAL REVEAL ── */
 const obs=new IntersectionObserver(es=>{es.forEach(e=>{
   if(e.isIntersecting)e.target.classList.add('vis');
   else e.target.classList.remove('vis');
-})},{threshold:.15});
+})},{threshold:.1});
 document.querySelectorAll('.reveal,.reveal-left,.reveal-scale').forEach(el=>obs.observe(el));
 document.querySelectorAll('.fact-item').forEach((el,i)=>{
   const fo=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)setTimeout(()=>e.target.classList.add('vis'),i*120)})},{threshold:.2});
   fo.observe(el);
 });
 
-/* ── SCROLL DISPATCHER ── */
-function easeOut(t){return 1-(1-t)*(1-t)*(1-t)}
-window.addEventListener('scroll',()=>{
-  updateAbout();
-  updateHoriz();
-},{ passive:true });
-// initial call
-updateAbout();updateHoriz();
-
-/* ── PHOTO CAROUSEL — infinite ── */
+/* ── PHOTO CAROUSEL ── */
 const photos=['5256195249481129364.jpg','5323388062911894244.jpg','5319234833831629976.jpg','5256195249481129370.jpg','5323388062911894252.jpg','5256195249481129365.jpg','5319234833831629977.jpg','5323388062911894248.jpg','5256195249481129366.jpg','5323388062911894250.jpg','5256195249481129369.jpg','5323388062911894249.jpg','5323388062911894243.jpg','5323388062911894247.jpg'];
 const photoTrack=document.getElementById('photoTrack');
 [...photos,...photos].forEach((p,i)=>{
@@ -536,12 +490,13 @@ photoTrack.addEventListener('transitionend',()=>{
   else if(photoPos<0){photoPos+=photoSetW;photoTrack.style.transition='none';photoTrack.style.transform=`translateX(-${photoPos}px)`}
 });
 
-/* ── VIDEO CAROUSEL ── */
+/* ── VIDEO CAROUSEL (FIX 9: no muted attribute = sound works) ── */
 const videos=['IMG_1213.MP4','IMG_2990.MP4','IMG_2991.MP4','IMG_2992.MP4','IMG_2993.MP4','IMG_1408.MP4','IMG_1214.MP4'];
 const videoTrack=document.getElementById('videoTrack');
 videos.forEach(v=>{
   const d=document.createElement('div');d.className='vid-item';d.onclick=function(){toggleVideo(this)};
-  d.innerHTML=`<video src="images/${v}" loop playsinline muted preload="metadata"></video><div class="vid-overlay"><div class="play-btn"><div class="play-icon"></div></div></div>`;
+  // No muted attribute — video will play with sound
+  d.innerHTML=`<video src="images/${v}" loop playsinline preload="metadata"></video><div class="vid-overlay"><div class="play-btn"><div class="play-icon"></div></div></div>`;
   videoTrack.appendChild(d);
 });
 let vidPos=0;
@@ -554,8 +509,12 @@ function vidMove(dir){
 }
 function toggleVideo(card){
   const vid=card.querySelector('video');const overlay=card.querySelector('.vid-overlay');
-  if(vid.paused){document.querySelectorAll('.vid-item video').forEach(v=>v.pause());vid.play();overlay.style.opacity='0'}
-  else{vid.pause();overlay.style.opacity='1'}
+  if(vid.paused){
+    document.querySelectorAll('.vid-item video').forEach(v=>{v.pause();v.closest('.vid-item').querySelector('.vid-overlay').style.opacity='1'});
+    vid.play();overlay.style.opacity='0';
+  } else {
+    vid.pause();overlay.style.opacity='1';
+  }
 }
 
 /* ── LIGHTBOX ── */
